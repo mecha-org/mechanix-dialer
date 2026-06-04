@@ -1,3 +1,4 @@
+import 'package:dialer/core/utils/app_logger.dart';
 import 'package:dialer/core/utils/enums.dart';
 import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final contacts = await repository.getAll();
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
+      AppLogger.e('Failed to load contacts: $e');
       emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
     }
   }
@@ -31,6 +33,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final contacts = await repository.getAll();
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
+      AppLogger.e('Failed to save contact: $e');
       emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
     }
   }
@@ -45,6 +48,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final contacts = await repository.getAll();
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
+      AppLogger.e('Failed to delete contact: $e');
       emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
     }
   }
@@ -58,6 +62,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final results = await repository.search(event.query);
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: results));
     } catch (e) {
+      AppLogger.e('Failed to search contacts: $e');
       emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
     }
   }

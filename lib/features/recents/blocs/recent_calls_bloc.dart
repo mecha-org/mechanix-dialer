@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dialer/core/utils/app_logger.dart';
 import 'package:dialer/core/utils/enums.dart';
 import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,15 +53,13 @@ class RecentCallsBloc extends Bloc<RecentCallsEvent, RecentCallsState> {
         ),
       );
     } catch (e) {
+      AppLogger.e('Failed to load recent calls: $e');
       emit(
         state.copyWith(status: RecentCallsStatus.error, error: e.toString()),
       );
     }
   }
 
-  // ---------------------------
-  // LIVE UPDATE (SOURCE OF TRUTH)
-  // ---------------------------
   Future<void> _onUpdated(
     RecentCallsUpdated event,
     Emitter<RecentCallsState> emit,
@@ -97,13 +96,10 @@ class RecentCallsBloc extends Bloc<RecentCallsEvent, RecentCallsState> {
         );
       }
     } catch (e) {
-      // ignore
+      AppLogger.e('Failed to update recent calls: $e');
     }
   }
 
-  // ---------------------------
-  // PAGINATION (ONLY APPENDS IF NOT FILTERED)
-  // ---------------------------
   Future<void> _onLoadMore(
     LoadMoreRecentCalls event,
     Emitter<RecentCallsState> emit,
@@ -152,7 +148,7 @@ class RecentCallsBloc extends Bloc<RecentCallsEvent, RecentCallsState> {
   }
 
   // ---------------------------
-  // MISSED CALLS FILTER (TEMP VIEW)
+  // MISSED CALLS FILTER
   // ---------------------------
   Future<void> _onMissed(
     LoadMissedCalls event,
@@ -180,6 +176,7 @@ class RecentCallsBloc extends Bloc<RecentCallsEvent, RecentCallsState> {
         ),
       );
     } catch (e) {
+      AppLogger.e('Failed to load missed calls: $e');
       emit(
         state.copyWith(status: RecentCallsStatus.error, error: e.toString()),
       );
@@ -224,6 +221,7 @@ class RecentCallsBloc extends Bloc<RecentCallsEvent, RecentCallsState> {
         ),
       );
     } catch (e) {
+      AppLogger.e('Failed to search recent calls: $e');
       emit(
         state.copyWith(status: RecentCallsStatus.error, error: e.toString()),
       );

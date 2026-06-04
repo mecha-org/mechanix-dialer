@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dialer/core/utils/app_logger.dart';
 import 'package:dialer/core/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
@@ -185,7 +186,7 @@ class DialerBloc extends Bloc<DialerEvent, DialerState> {
         }
       }
     } catch (e) {
-      // ignore
+      AppLogger.e('Failed to lookup contact name: $e');
     }
     return null;
   }
