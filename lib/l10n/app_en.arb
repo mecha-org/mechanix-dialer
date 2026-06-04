@@ -1,0 +1,173 @@
+{
+  "contacts": "Contacts",
+  "recentCalls": "Recent calls",
+  "allCalls": "All",
+  "missedCalls": "Missed",
+  "searchInCallLog": "Search in call log",
+  "call" : "Call",
+  "message" : "Message",
+  "noRecentCalls" : "No recent calls",
+  "now" : "Now",
+  "yesterday": "Yesterday",
+  "cancel" : "Cancel",
+  "delete" : "Delete",
+  "deleteContactTitle": "Delete contact?",
+  "deleteContactConfirmation": "Are you sure you want to delete '{name}'?",
+  "@deleteContactConfirmation": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "editContact": "Edit contact",
+  "newContact": "New contact",
+  "save": "Save",
+  "deleteContact": "Delete contact",
+
+
+  "name": "Name",
+  "enterName": "Enter name",
+  "pleaseEnterName": "Please enter a name",
+
+  "phoneNumbers": "Phone numbers",
+  "addNumber": "Add number",
+
+  "enterPhoneNumber": "Enter phone number",
+  "pleaseEnterAtLeastOnePhoneNumber": "Please enter at least one phone number.",
+
+
+  "contact": "Contact", 
+  "callHistory": "Call history",
+  "incomingCall": "Incoming call",
+  "outgoingCall": "Outgoing call",
+  "missedCall": "Missed call",
+  "cancelledCall": "Cancelled call",
+  "blockedCall": "Blocked call",
+  "durationSeconds": "{count}s",
+  "@durationSeconds": {
+    "description": "Duration displayed in seconds",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "durationMinutes": "{minutes}m",
+  "@durationMinutes": {
+    "description": "Duration displayed in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "durationMinutesSeconds": "{minutes}m {seconds}s",
+  "@durationMinutesSeconds": {
+    "description": "Duration displayed in minutes and seconds",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "@durationHoursMinutes": {
+    "description": "Duration displayed in hours and minutes",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "durationHoursMinutesSeconds": "{hours}h {minutes}m {seconds}s",
+  "@durationHoursMinutesSeconds": {
+    "description": "Duration displayed in hours, minutes and seconds",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidPhoneNumber": "Only numbers and symbols (+, -, (, )) are allowed",
+  "@invalidPhoneNumber": {
+    "description": "Shown when a phone number contains invalid characters"
+  },
+
+  "phoneNumberTooShort": "Please enter at least 3 digits",
+  "@phoneNumberTooShort": {
+    "description": "Shown when a phone number is too short"
+  },
+
+  "contacts": "Contacts",
+  "searchInContacts": "Search in contacts",
+  "myCard": "My card",
+  "noContactsFound": "No contacts found",
+  "noPhoneNumbers": "No phone numbers",
+  "contactAlphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZ#",
+  "@contactAlphabet": {
+    "description": "Alphabet used for contact list indexing"
+  },
+
+  "emails": "Emails",
+  "enterEmailAddress": "Enter email address",
+  "invalidEmail": "Please enter a valid email address",
+  "preferredLine" : "Preferred line",
+
+  "calling": "Calling...",
+  "@calling": {
+    "description": "Shown when an outgoing call is being placed"
+  },
+
+  "incomingCall": "Incoming call",
+  "@incomingCall": {
+    "description": "Shown when there is an incoming call"
+  },
+
+  "callCancelled": "Call cancelled",
+  "@callCancelled": {
+    "description": "Shown when a call was cancelled"
+  },
+
+  "selectPreferredLine": "Select preferred line",
+  "@selectPreferredLine": {
+    "description": "Dialog title for selecting preferred phone line"
+  },
+
+  "noRecentCalls": "No recent calls found",
+    "nameTooShort": "Name must contain at least 2 characters",
+  "@nameTooShort": {
+    "description": "Validation message shown when contact name is too short"
+  },
+
+  "invalidName": "Please enter a valid name",
+  "@invalidName": {
+    "description": "Validation message shown when contact name contains invalid characters"
+  },
+
+  "nameTooLong": "Name cannot exceed {maxLength} characters",
+  "@nameTooLong": {
+    "description": "Validation message shown when contact name exceeds maximum length",
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  }
+}
