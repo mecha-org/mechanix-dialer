@@ -1,9 +1,9 @@
-import 'package:dialer/core/utils/helper.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/features/recents/presentation/screens/recent_call_info_screen.dart';
-import 'package:dialer/features/recents/presentation/widgets/call_type_icon.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/utils/helper.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/features/recents/presentation/screens/recent_call_info_screen.dart';
+import 'package:mechanix_dialer/features/recents/presentation/widgets/call_type_icon.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class RecentCallsListSection extends StatefulWidget {

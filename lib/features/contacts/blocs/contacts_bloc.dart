@@ -1,6 +1,6 @@
-import 'package:dialer/core/utils/app_logger.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'contacts_event.dart';
 import 'contacts_state.dart';

@@ -1,16 +1,16 @@
-import 'package:dialer/core/constants/dial_pad_buttons.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/constants/icons.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/core/utils/helper.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_event.dart';
-import 'package:dialer/features/dialer/blocs/dialer_state.dart';
-import 'package:dialer/features/dialer/presentation/widgets/call_action_buttton.dart';
-import 'package:dialer/features/dialer/presentation/widgets/call_toggle_button.dart';
-import 'package:dialer/features/dialer/presentation/widgets/dial_button.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/constants/dial_pad_buttons.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/helper.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_event.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_state.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/call_action_buttton.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/call_toggle_button.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/dial_button.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -143,7 +143,7 @@ class _CallScreenState extends State<CallScreen> {
                       ),
 
                       const SizedBox(height: 16),
-                      // Dial pad buttons layout dynamically calculated to match dialer screen style
+                      // Dial pad buttons layout dynamically calculated to match mechanix_dialer screen style
                       Expanded(
                         child: LayoutBuilder(
                           builder: (context, constraints) {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dialer/core/utils/app_logger.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'recent_calls_event.dart';

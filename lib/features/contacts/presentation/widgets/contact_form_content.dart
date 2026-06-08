@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:dialer/core/constants/app_constants.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/constants/app_constants.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ContactFormContent extends StatelessWidget {

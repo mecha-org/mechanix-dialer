@@ -1,12 +1,12 @@
-import 'package:dialer/core/constants/dial_pad_buttons.dart';
-import 'package:dialer/core/constants/icons.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
-import 'package:dialer/core/widgets/toast/custom_app_toast.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_event.dart';
-import 'package:dialer/features/dialer/presentation/widgets/dial_button.dart';
-import 'package:dialer/features/dialer/presentation/widgets/dial_pad_item.dart';
+import 'package:mechanix_dialer/core/constants/dial_pad_buttons.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/core/widgets/toast/custom_app_toast.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_event.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/dial_button.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/dial_pad_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

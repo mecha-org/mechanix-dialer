@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
 
 class CustomIconButton extends StatelessWidget {
   final Widget icon;

@@ -1,12 +1,12 @@
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_event.dart';
-import 'package:dialer/features/dialer/blocs/dialer_state.dart';
-import 'package:dialer/features/dialer/presentation/widgets/dial_pad_grids.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_event.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_state.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/dial_pad_grids.dart';
 
 class DialerScreen extends StatefulWidget {
   const DialerScreen({super.key});

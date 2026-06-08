@@ -1,9 +1,9 @@
-import 'package:dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dialer/core/constants/icons.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
 
 class CallTypeIcon extends StatelessWidget {
   final CallType type;

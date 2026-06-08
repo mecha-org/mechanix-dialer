@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
 
 class CallToggleButton extends StatelessWidget {
   final String icon;

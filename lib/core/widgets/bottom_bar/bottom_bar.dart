@@ -1,4 +1,4 @@
-import 'package:dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {

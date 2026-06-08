@@ -1,4 +1,4 @@
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

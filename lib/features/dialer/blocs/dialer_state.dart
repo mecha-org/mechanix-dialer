@@ -1,4 +1,4 @@
-import 'package:dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:equatable/equatable.dart';
 
 class DialerState extends Equatable {

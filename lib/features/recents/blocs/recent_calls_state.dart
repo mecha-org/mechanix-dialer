@@ -1,6 +1,6 @@
-import 'package:dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
 
 class RecentCallsState extends Equatable {
   final List<RecentCallEntity> calls;

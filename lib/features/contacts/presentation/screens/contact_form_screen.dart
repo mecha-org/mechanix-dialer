@@ -1,10 +1,10 @@
-import 'package:dialer/core/constants/icons.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
-import 'package:dialer/core/widgets/toast/custom_app_toast.dart';
-import 'package:dialer/features/contacts/presentation/widgets/contact_form_content.dart';
-import 'package:dialer/features/contacts/presentation/widgets/contacts_form_bottom_bar.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/core/widgets/toast/custom_app_toast.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/widgets/contact_form_content.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/widgets/contacts_form_bottom_bar.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:mechanix_contacts/mechanix_contacts.dart';
 

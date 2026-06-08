@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_bloc.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_event.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_state.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_bloc.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_event.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_state.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -49,13 +49,20 @@ void main() {
     blocTest<RecentCallsBloc, RecentCallsState>(
       'emits correct states when LoadRecentCalls is added and succeeds',
       build: () {
-        when(() => mockRepository.watchAll(limit: 1)).thenAnswer((_) => const Stream.empty());
-        when(() => mockRepository.getPaged(offset: 0, limit: 30)).thenAnswer((_) async => [call1, call2]);
+        when(
+          () => mockRepository.watchAll(limit: 1),
+        ).thenAnswer((_) => const Stream.empty());
+        when(
+          () => mockRepository.getPaged(offset: 0, limit: 30),
+        ).thenAnswer((_) async => [call1, call2]);
         return bloc;
       },
       act: (bloc) => bloc.add(LoadRecentCalls()),
       expect: () => [
-        const RecentCallsState(status: RecentCallsStatus.loading, filter: CallFilter.all),
+        const RecentCallsState(
+          status: RecentCallsStatus.loading,
+          filter: CallFilter.all,
+        ),
         RecentCallsState(
           status: RecentCallsStatus.loaded,
           calls: [call1, call2],
@@ -72,21 +79,33 @@ void main() {
     blocTest<RecentCallsBloc, RecentCallsState>(
       'emits correct states when LoadRecentCalls fails',
       build: () {
-        when(() => mockRepository.watchAll(limit: 1)).thenAnswer((_) => const Stream.empty());
-        when(() => mockRepository.getPaged(offset: 0, limit: 30)).thenThrow(Exception('DB Error'));
+        when(
+          () => mockRepository.watchAll(limit: 1),
+        ).thenAnswer((_) => const Stream.empty());
+        when(
+          () => mockRepository.getPaged(offset: 0, limit: 30),
+        ).thenThrow(Exception('DB Error'));
         return bloc;
       },
       act: (bloc) => bloc.add(LoadRecentCalls()),
       expect: () => [
-        const RecentCallsState(status: RecentCallsStatus.loading, filter: CallFilter.all),
-        const RecentCallsState(status: RecentCallsStatus.error, error: 'Exception: DB Error'),
+        const RecentCallsState(
+          status: RecentCallsStatus.loading,
+          filter: CallFilter.all,
+        ),
+        const RecentCallsState(
+          status: RecentCallsStatus.error,
+          error: 'Exception: DB Error',
+        ),
       ],
     );
 
     blocTest<RecentCallsBloc, RecentCallsState>(
       'emits updated calls when RecentCallsUpdated is added',
       build: () {
-        when(() => mockRepository.getPaged(offset: 0, limit: 30)).thenAnswer((_) async => [call1]);
+        when(
+          () => mockRepository.getPaged(offset: 0, limit: 30),
+        ).thenAnswer((_) async => [call1]);
         return bloc;
       },
       act: (bloc) => bloc.add(RecentCallsUpdated([call1])),
@@ -102,13 +121,20 @@ void main() {
     blocTest<RecentCallsBloc, RecentCallsState>(
       'emits missed calls when LoadMissedCalls is added and succeeds',
       build: () {
-        when(() => mockRepository.watchAll()).thenAnswer((_) => const Stream.empty());
-        when(() => mockRepository.getMissedCalls()).thenAnswer((_) async => [call1]);
+        when(
+          () => mockRepository.watchAll(),
+        ).thenAnswer((_) => const Stream.empty());
+        when(
+          () => mockRepository.getMissedCalls(),
+        ).thenAnswer((_) async => [call1]);
         return bloc;
       },
       act: (bloc) => bloc.add(LoadMissedCalls()),
       expect: () => [
-        const RecentCallsState(status: RecentCallsStatus.loading, filter: CallFilter.missed),
+        const RecentCallsState(
+          status: RecentCallsStatus.loading,
+          filter: CallFilter.missed,
+        ),
         RecentCallsState(
           status: RecentCallsStatus.loaded,
           calls: [call1],
@@ -121,8 +147,12 @@ void main() {
     blocTest<RecentCallsBloc, RecentCallsState>(
       'appends more calls when LoadMoreRecentCalls is added',
       build: () {
-        when(() => mockRepository.getBefore(lastTimestamp: any(named: 'lastTimestamp'), limit: 30))
-            .thenAnswer((_) async => [call2]);
+        when(
+          () => mockRepository.getBefore(
+            lastTimestamp: any(named: 'lastTimestamp'),
+            limit: 30,
+          ),
+        ).thenAnswer((_) async => [call2]);
         return bloc;
       },
       seed: () => RecentCallsState(
@@ -152,7 +182,9 @@ void main() {
     blocTest<RecentCallsBloc, RecentCallsState>(
       'emits filtered calls when SearchRecentCalls is added with query',
       build: () {
-        when(() => mockRepository.search('alice')).thenAnswer((_) async => [call1]);
+        when(
+          () => mockRepository.search('alice'),
+        ).thenAnswer((_) async => [call1]);
         return bloc;
       },
       act: (bloc) => bloc.add(SearchRecentCalls('alice')),

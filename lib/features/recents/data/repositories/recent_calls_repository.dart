@@ -1,4 +1,4 @@
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
 
 abstract class RecentCallsRepository {
   Future<List<RecentCallEntity>> getAll();

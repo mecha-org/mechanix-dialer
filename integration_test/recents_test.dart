@@ -1,22 +1,22 @@
 import 'dart:io';
-import 'package:dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:dialer/main.dart';
-import 'package:dialer/features/recents/presentation/screens/recent_calls_screen.dart';
-import 'package:dialer/features/recents/presentation/screens/recent_call_info_screen.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository_impl.dart';
-import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
-import 'package:dialer/features/contacts/data/repositories/contacts_repository_impl.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_bloc.dart';
-import 'package:dialer/features/contacts/blocs/contacts_bloc.dart';
-import 'package:dialer/objectbox.g.dart';
+import 'package:mechanix_dialer/main.dart';
+import 'package:mechanix_dialer/features/recents/presentation/screens/recent_calls_screen.dart';
+import 'package:mechanix_dialer/features/recents/presentation/screens/recent_call_info_screen.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository_impl.dart';
+import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
+import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository_impl.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_bloc.dart';
+import 'package:mechanix_dialer/features/contacts/blocs/contacts_bloc.dart';
+import 'package:mechanix_dialer/objectbox.g.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

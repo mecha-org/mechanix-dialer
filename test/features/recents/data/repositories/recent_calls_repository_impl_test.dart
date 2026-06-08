@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository_impl.dart';
-import 'package:dialer/objectbox.g.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository_impl.dart';
+import 'package:mechanix_dialer/objectbox.g.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -84,18 +84,22 @@ void main() {
     });
 
     test('clear removes all call logs', () async {
-      await repository.add(RecentCallEntity(
-        name: 'A',
-        phoneNumber: '1',
-        timestamp: DateTime.now(),
-        durationSeconds: 10,
-      ));
-      await repository.add(RecentCallEntity(
-        name: 'B',
-        phoneNumber: '2',
-        timestamp: DateTime.now(),
-        durationSeconds: 15,
-      ));
+      await repository.add(
+        RecentCallEntity(
+          name: 'A',
+          phoneNumber: '1',
+          timestamp: DateTime.now(),
+          durationSeconds: 10,
+        ),
+      );
+      await repository.add(
+        RecentCallEntity(
+          name: 'B',
+          phoneNumber: '2',
+          timestamp: DateTime.now(),
+          durationSeconds: 15,
+        ),
+      );
 
       await repository.clear();
 
@@ -133,20 +137,24 @@ void main() {
 
     test('getMissedCalls returns only missed calls', () async {
       final now = DateTime.now();
-      await repository.add(RecentCallEntity(
-        name: 'A',
-        phoneNumber: '1',
-        timestamp: now,
-        durationSeconds: 10,
-        callTypeIndex: CallType.missed.index,
-      ));
-      await repository.add(RecentCallEntity(
-        name: 'B',
-        phoneNumber: '2',
-        timestamp: now.subtract(const Duration(seconds: 5)),
-        durationSeconds: 15,
-        callTypeIndex: CallType.incoming.index,
-      ));
+      await repository.add(
+        RecentCallEntity(
+          name: 'A',
+          phoneNumber: '1',
+          timestamp: now,
+          durationSeconds: 10,
+          callTypeIndex: CallType.missed.index,
+        ),
+      );
+      await repository.add(
+        RecentCallEntity(
+          name: 'B',
+          phoneNumber: '2',
+          timestamp: now.subtract(const Duration(seconds: 5)),
+          durationSeconds: 15,
+          callTypeIndex: CallType.incoming.index,
+        ),
+      );
 
       final missed = await repository.getMissedCalls();
       expect(missed.length, 1);
@@ -156,12 +164,14 @@ void main() {
     test('getPaged performs correct offset and limit pagination', () async {
       final now = DateTime.now();
       for (int i = 0; i < 5; i++) {
-        await repository.add(RecentCallEntity(
-          name: 'Person $i',
-          phoneNumber: '$i',
-          timestamp: now.subtract(Duration(minutes: i)),
-          durationSeconds: 10,
-        ));
+        await repository.add(
+          RecentCallEntity(
+            name: 'Person $i',
+            phoneNumber: '$i',
+            timestamp: now.subtract(Duration(minutes: i)),
+            durationSeconds: 10,
+          ),
+        );
       }
 
       // Latest call has offset index 0 (Person 0)

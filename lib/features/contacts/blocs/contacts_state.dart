@@ -1,4 +1,4 @@
-import 'package:dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:equatable/equatable.dart';
 

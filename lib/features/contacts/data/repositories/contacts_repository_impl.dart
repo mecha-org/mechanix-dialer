@@ -1,4 +1,4 @@
-import 'package:dialer/core/utils/app_logger.dart';
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
 import 'package:mechanix_contacts/mechanix_contacts.dart';
 
 import 'contacts_repository.dart';

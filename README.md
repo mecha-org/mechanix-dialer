@@ -14,8 +14,8 @@ Dialer App lets you make and manage phone calls, built with Flutter Elinux for M
 1. Clone the repository:
 
 ```bash
-$ git clone https://github.com/mecha-org/mechanix-dialer
-$ cd dialer
+$ git clone https://github.com/mecha-org/mechanix-mechanix_dialer
+$ cd mechanix_dialer
 ```
 
 2. Install Flutter dependencies:

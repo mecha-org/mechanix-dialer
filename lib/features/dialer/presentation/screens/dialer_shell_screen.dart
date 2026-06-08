@@ -1,13 +1,13 @@
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/dialer/presentation/widgets/dialer_bottom_bar.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_state.dart';
-import 'package:dialer/features/dialer/presentation/screens/call_screen.dart';
-import 'package:dialer/features/dialer/presentation/screens/dialer_screen.dart';
-import 'package:dialer/features/recents/presentation/screens/recent_calls_screen.dart';
-import 'package:dialer/features/contacts/presentation/screens/contacts_screen.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_state.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/screens/call_screen.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/screens/dialer_screen.dart';
+import 'package:mechanix_dialer/features/dialer/presentation/widgets/dialer_bottom_bar.dart';
+import 'package:mechanix_dialer/features/recents/presentation/screens/recent_calls_screen.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/screens/contacts_screen.dart';
 
 class DialerShellScreen extends StatefulWidget {
   const DialerShellScreen({super.key});
@@ -36,10 +36,12 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
   Widget build(BuildContext context) {
     return BlocListener<DialerBloc, DialerState>(
       listenWhen: (previous, current) {
-        final started = previous.callStatus == CallStatus.none &&
+        final started =
+            previous.callStatus == CallStatus.none &&
             (current.callStatus == CallStatus.calling ||
                 current.callStatus == CallStatus.incoming);
-        final ended = previous.callStatus != CallStatus.none &&
+        final ended =
+            previous.callStatus != CallStatus.none &&
             current.callStatus == CallStatus.none;
         return started || ended;
       },

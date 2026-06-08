@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:dialer/core/exceptions/app_exception.dart';
-import 'package:dialer/core/utils/app_logger.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
-import 'package:dialer/objectbox.g.dart';
+import 'package:mechanix_dialer/core/exceptions/app_exception.dart';
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/objectbox.g.dart';
 import 'recent_calls_repository.dart';
 
 class RecentCallsRepositoryImpl implements RecentCallsRepository {

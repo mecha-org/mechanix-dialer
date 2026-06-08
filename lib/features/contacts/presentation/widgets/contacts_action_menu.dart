@@ -1,7 +1,7 @@
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/widgets/custom_icon_button.dart';
-import 'package:dialer/features/contacts/presentation/screens/contact_details_screen.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/widgets/custom_icon_button.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/screens/contact_details_screen.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ContactsActionsMenu extends StatelessWidget {

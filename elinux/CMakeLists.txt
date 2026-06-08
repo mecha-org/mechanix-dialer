@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "dialer")
+set(BINARY_NAME "mechanix_dialer")
 
 cmake_policy(SET CMP0063 NEW)
 

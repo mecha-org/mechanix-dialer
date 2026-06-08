@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:dialer/core/utils/app_logger.dart';
-import 'package:dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
-import 'package:dialer/features/recents/data/models/recent_calls.dart';
+import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
+import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository.dart';
+import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
 import 'dialer_event.dart';
 import 'dialer_state.dart';
 

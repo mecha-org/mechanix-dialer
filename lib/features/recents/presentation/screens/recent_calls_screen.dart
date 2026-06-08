@@ -1,19 +1,19 @@
 import 'dart:ui';
 
-import 'package:dialer/core/constants/icons.dart';
-import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/core/widgets/custom_image_asset.dart';
-import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
-import 'package:dialer/features/dialer/blocs/dialer_state.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_bloc.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_event.dart';
-import 'package:dialer/features/recents/blocs/recent_calls_state.dart';
-import 'package:dialer/features/recents/presentation/widgets/recent_call_filter_tab.dart';
-import 'package:dialer/l10n/app_localizations.dart';
+import 'package:mechanix_dialer/core/constants/icons.dart';
+import 'package:mechanix_dialer/core/theme/app_theme.dart';
+import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
+import 'package:mechanix_dialer/features/dialer/blocs/dialer_state.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_bloc.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_event.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_state.dart';
+import 'package:mechanix_dialer/features/recents/presentation/widgets/recent_call_filter_tab.dart';
+import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dialer/features/recents/presentation/widgets/recent_calls_list_section.dart';
+import 'package:mechanix_dialer/features/recents/presentation/widgets/recent_calls_list_section.dart';
 
 class RecentCallsScreen extends StatefulWidget {
   const RecentCallsScreen({super.key});
