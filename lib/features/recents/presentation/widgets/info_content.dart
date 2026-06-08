@@ -141,7 +141,10 @@ class _CallHistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedTime = formatDateTime(call.timestamp, context);
+    final formattedTime = formatDateTime(
+      AppLocalizations.of(context)!,
+      call.timestamp,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -201,7 +204,10 @@ class _CallHistoryTile extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      formatDuration(context, call.durationSeconds),
+                      formatDuration(
+                        AppLocalizations.of(context)!,
+                        call.durationSeconds,
+                      ),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.onSurfaceVariantDark,
                       ),

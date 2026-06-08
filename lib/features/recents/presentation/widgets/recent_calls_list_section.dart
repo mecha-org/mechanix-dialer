@@ -80,7 +80,7 @@ class _RecentCallsListSectionState extends State<RecentCallsListSection> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                formatDateTime(call.timestamp, context),
+                formatDateTime(AppLocalizations.of(context)!, call.timestamp),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
 

@@ -1,13 +1,12 @@
 import 'package:mechanix_dialer/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-String formatDateTime(DateTime dateTime, BuildContext context) {
+String formatDateTime(AppLocalizations l10n, DateTime dateTime) {
   final now = DateTime.now();
 
   // If modified just now (within last 30 seconds)
   if (now.difference(dateTime).inSeconds.abs() < 30) {
-    return AppLocalizations.of(context)!.now;
+    return l10n.now;
   }
 
   final yesterday = now.subtract(const Duration(days: 1));
@@ -27,7 +26,7 @@ String formatDateTime(DateTime dateTime, BuildContext context) {
   if (isToday) {
     return time24;
   } else if (isYesterday) {
-    return AppLocalizations.of(context)!.yesterday;
+    return l10n.yesterday;
   }
 
   // If same year → "Nov 2"
@@ -39,9 +38,7 @@ String formatDateTime(DateTime dateTime, BuildContext context) {
   return DateFormat('MMM d, yyyy').format(dateTime);
 }
 
-String formatDuration(BuildContext context, int seconds) {
-  final l10n = AppLocalizations.of(context)!;
-
+String formatDuration(AppLocalizations l10n, int seconds) {
   if (seconds < 60) {
     return l10n.durationSeconds(seconds);
   }
