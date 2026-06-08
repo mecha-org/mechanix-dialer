@@ -1,3 +1,4 @@
 class AppConstants {
-  static const int maxContactLength = 100;
+  static const int maxContactNameLength = 100;
+  static const int recentCallsPageSize = 30;
 }

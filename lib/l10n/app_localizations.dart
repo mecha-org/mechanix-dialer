@@ -417,6 +417,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name cannot exceed {maxLength} characters'**
   String nameTooLong(int maxLength);
+
+  /// No description provided for @failedToLoadContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load contacts'**
+  String get failedToLoadContacts;
+
+  /// No description provided for @failedToSaveContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save contact'**
+  String get failedToSaveContact;
+
+  /// No description provided for @failedToDeleteContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete contact'**
+  String get failedToDeleteContact;
+
+  /// No description provided for @failedToUpdateContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update contact'**
+  String get failedToUpdateContact;
+
+  /// No description provided for @contactsDatabaseUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts database is unavailable'**
+  String get contactsDatabaseUnavailable;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @failedToSearchContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to search contact'**
+  String get failedToSearchContact;
 }
 
 class _AppLocalizationsDelegate

@@ -34,46 +34,57 @@ class DialerBloc extends Bloc<DialerEvent, DialerState> {
     StartOutgoingCall event,
     Emitter<DialerState> emit,
   ) async {
-    _cancelTimers();
-    final matchedName = await _lookupContactName(event.phoneNumber);
-    emit(
-      state.copyWith(
-        callStatus: CallStatus.calling,
-        callerNumber: event.phoneNumber,
-        callerName: matchedName,
-        clearCallerName: matchedName == null,
-        callDuration: 0,
-        isMuted: false,
-        isSpeakerOn: false,
-        simNumber: event.simNumber,
-      ),
-    );
+    try {
+      _cancelTimers();
 
-    // Simulate connection after 3 seconds
-    _connectTimer = Timer(const Duration(seconds: 3), () {
-      add(AcceptCall());
-    });
+      final matchedName = await _lookupContactName(event.phoneNumber);
+
+      emit(
+        state.copyWith(
+          callStatus: CallStatus.calling,
+          callerNumber: event.phoneNumber,
+          callerName: matchedName,
+          clearCallerName: matchedName == null,
+          callDuration: 0,
+          isMuted: false,
+          isSpeakerOn: false,
+          simNumber: event.simNumber,
+        ),
+      );
+
+      _connectTimer = Timer(const Duration(seconds: 3), () {
+        add(AcceptCall());
+      });
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to start outgoing call: $e', stack: stackTrace);
+    }
   }
 
   Future<void> _onReceiveIncomingCall(
     ReceiveIncomingCall event,
     Emitter<DialerState> emit,
   ) async {
-    _cancelTimers();
-    final matchedName =
-        event.callerName ?? await _lookupContactName(event.phoneNumber);
-    emit(
-      state.copyWith(
-        callStatus: CallStatus.incoming,
-        callerNumber: event.phoneNumber,
-        callerName: matchedName,
-        clearCallerName: matchedName == null,
-        callDuration: 0,
-        isMuted: false,
-        isSpeakerOn: false,
-        simNumber: event.simNumber,
-      ),
-    );
+    try {
+      _cancelTimers();
+
+      final matchedName =
+          event.callerName ?? await _lookupContactName(event.phoneNumber);
+
+      emit(
+        state.copyWith(
+          callStatus: CallStatus.incoming,
+          callerNumber: event.phoneNumber,
+          callerName: matchedName,
+          clearCallerName: matchedName == null,
+          callDuration: 0,
+          isMuted: false,
+          isSpeakerOn: false,
+          simNumber: event.simNumber,
+        ),
+      );
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to receive incoming call: $e', stack: stackTrace);
+    }
   }
 
   void _onAcceptCall(AcceptCall event, Emitter<DialerState> emit) {
@@ -90,34 +101,42 @@ class DialerBloc extends Bloc<DialerEvent, DialerState> {
     RejectCall event,
     Emitter<DialerState> emit,
   ) async {
-    _cancelTimers();
-    emit(state.copyWith(callStatus: CallStatus.cancelled));
+    try {
+      _cancelTimers();
 
-    // Log the rejected incoming call
-    await _saveCallLog(CallType.rejected, 0);
+      emit(state.copyWith(callStatus: CallStatus.cancelled));
 
-    // Auto clear/return to dial pad after 2 seconds
-    _connectTimer = Timer(const Duration(seconds: 2), () {
-      add(ClearCallState());
-    });
+      await _saveCallLog(CallType.rejected, 0);
+
+      _connectTimer = Timer(const Duration(seconds: 2), () {
+        add(ClearCallState());
+      });
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to reject call: $e', stack: stackTrace);
+    }
   }
 
   Future<void> _onEndCall(EndCall event, Emitter<DialerState> emit) async {
-    final activeDuration = state.callDuration;
-    final previousStatus = state.callStatus;
-    _cancelTimers();
-    emit(state.copyWith(callStatus: CallStatus.cancelled));
+    try {
+      final activeDuration = state.callDuration;
+      final previousStatus = state.callStatus;
 
-    // Log the call
-    final CallType type = previousStatus == CallStatus.calling
-        ? CallType
-              .outgoing // cancelled before connecting
-        : CallType.outgoing;
-    await _saveCallLog(type, activeDuration);
+      _cancelTimers();
 
-    _connectTimer = Timer(const Duration(seconds: 2), () {
-      add(ClearCallState());
-    });
+      emit(state.copyWith(callStatus: CallStatus.cancelled));
+
+      final CallType type = previousStatus == CallStatus.calling
+          ? CallType.outgoing
+          : CallType.outgoing;
+
+      await _saveCallLog(type, activeDuration);
+
+      _connectTimer = Timer(const Duration(seconds: 2), () {
+        add(ClearCallState());
+      });
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to end call: $e', stack: stackTrace);
+    }
   }
 
   void _onToggleMute(ToggleMute event, Emitter<DialerState> emit) {
@@ -156,19 +175,18 @@ class DialerBloc extends Bloc<DialerEvent, DialerState> {
 
   Future<void> _saveCallLog(CallType type, int duration) async {
     try {
-      final name = state.callerName ?? '';
-      final number = state.callerNumber;
       final recentCall = RecentCallEntity(
-        name: name,
-        phoneNumber: number,
+        name: state.callerName ?? '',
+        phoneNumber: state.callerNumber,
         timestamp: DateTime.now(),
         durationSeconds: duration,
         callTypeIndex: type.index,
         simNumber: state.simNumber,
       );
-      recentCallsRepository.add(recentCall);
-    } catch (e) {
-      // ignore
+
+      await recentCallsRepository.add(recentCall);
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to save call log: $e', stack: stackTrace);
     }
   }
 
@@ -185,8 +203,8 @@ class DialerBloc extends Bloc<DialerEvent, DialerState> {
           }
         }
       }
-    } catch (e) {
-      AppLogger.e('Failed to lookup contact name: $e');
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to lookup contact name: $e', stack: stackTrace);
     }
     return null;
   }

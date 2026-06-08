@@ -73,7 +73,7 @@ void main() {
         const ContactsState(status: ContactsStatus.loading),
         const ContactsState(
           status: ContactsStatus.error,
-          error: 'Exception: Failed to load',
+          error: ContactsError.loadFailed,
         ),
       ],
     );

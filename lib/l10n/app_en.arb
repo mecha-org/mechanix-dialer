@@ -169,5 +169,14 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "failedToLoadContacts": "Failed to load contacts",
+  "failedToSaveContact": "Failed to save contact",
+  "failedToDeleteContact": "Failed to delete contact",
+  "failedToUpdateContact": "Failed to update contact",
+  "contactsDatabaseUnavailable": "Contacts database is unavailable",
+  "somethingWentWrong": "Something went wrong",
+  "failedToSearchContact": "Failed to search contact"
+
 }

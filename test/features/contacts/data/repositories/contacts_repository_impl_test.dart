@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:mechanix_contacts/objectbox.g.dart';
 import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository_impl.dart';
-import 'package:mechanix_dialer/objectbox.g.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mechanix_contacts/features/contacts/data/models/contacts.dart';
 import 'package:mechanix_contacts/features/contacts/data/models/phone_numbers.dart';

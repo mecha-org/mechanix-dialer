@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class ContactsState extends Equatable {
   final List<ContactEntity> contacts;
   final ContactsStatus status;
-  final String? error;
+  final ContactsError? error;
 
   const ContactsState({
     this.contacts = const [],
@@ -16,7 +16,7 @@ class ContactsState extends Equatable {
   ContactsState copyWith({
     List<ContactEntity>? contacts,
     ContactsStatus? status,
-    String? error,
+    ContactsError? error,
   }) {
     return ContactsState(
       contacts: contacts ?? this.contacts,

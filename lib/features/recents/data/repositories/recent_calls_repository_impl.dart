@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mechanix_dialer/core/constants/app_constants.dart';
 import 'package:mechanix_dialer/core/exceptions/app_exception.dart';
 import 'package:mechanix_dialer/core/utils/app_logger.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
@@ -88,7 +89,9 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
   }
 
   @override
-  Stream<List<RecentCallEntity>> watchAll({int limit = 30}) async* {
+  Stream<List<RecentCallEntity>> watchAll({
+    int limit = AppConstants.recentCallsPageSize,
+  }) async* {
     await ensureStoreConnected();
     final builder = _box!.query().order(
       RecentCallEntity_.timestamp,
@@ -182,7 +185,7 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
   @override
   Future<List<RecentCallEntity>> getBefore({
     required DateTime lastTimestamp,
-    int limit = 30,
+    int limit = AppConstants.recentCallsPageSize,
   }) async {
     await ensureStoreConnected();
     final query =

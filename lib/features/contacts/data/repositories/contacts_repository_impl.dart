@@ -24,8 +24,13 @@ class ContactsRepositoryImpl implements ContactsRepository {
   /// repository operations.
   /// This is skipped when a test store is injected through the constructor.
   Future<void> _ensureConnected() async {
-    if (store == null) {
-      await ContactsStoreService.ensureConnected();
+    try {
+      if (store == null) {
+        await ContactsStoreService.ensureConnected();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to connect to contacts store: $e', stack: stackTrace);
+      rethrow;
     }
   }
 
@@ -67,7 +72,7 @@ class ContactsRepositoryImpl implements ContactsRepository {
     try {
       await _ensureConnected();
 
-      ContactsStoreService.store.runInTransaction(TxMode.write, () {
+      _dbStore.runInTransaction(TxMode.write, () {
         if (contact.id != 0) {
           final existingNumbers = _phoneNumbers
               .query(PhoneNumberEntity_.contact.equals(contact.id))
@@ -118,7 +123,7 @@ class ContactsRepositoryImpl implements ContactsRepository {
     try {
       await _ensureConnected();
 
-      ContactsStoreService.store.runInTransaction(TxMode.write, () {
+      _dbStore.runInTransaction(TxMode.write, () {
         final existingNumbers = _phoneNumbers
             .query(PhoneNumberEntity_.contact.equals(id))
             .build()
@@ -201,7 +206,7 @@ class ContactsRepositoryImpl implements ContactsRepository {
 
       if (count == 0) {
         // TODO: Remove this once SIM data comes from system APIs
-        ContactsStoreService.store.runInTransaction(TxMode.write, () {
+        _dbStore.runInTransaction(TxMode.write, () {
           _sims.put(
             SimCardEntity(slot: '1', name: 'Primary', number: '01-554738'),
           );

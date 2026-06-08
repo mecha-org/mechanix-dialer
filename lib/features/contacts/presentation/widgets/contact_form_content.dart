@@ -133,10 +133,10 @@ class _NameField extends StatelessWidget {
           return AppLocalizations.of(context)!.invalidName;
         }
 
-        if (name.length > AppConstants.maxContactLength) {
+        if (name.length > AppConstants.maxContactNameLength) {
           return AppLocalizations.of(
             context,
-          )!.nameTooLong(AppConstants.maxContactLength);
+          )!.nameTooLong(AppConstants.maxContactNameLength);
         }
 
         return null;

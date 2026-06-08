@@ -19,14 +19,6 @@ class BottomBar extends StatelessWidget {
     this.backgroundColor = AppColors.backgroundVariantDark,
   });
 
-  Widget _wrap(Widget? child) {
-    if (child == null) {
-      return const SizedBox(width: 48, height: 48);
-    }
-
-    return SizedBox(width: 48, height: 48, child: Center(child: child));
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -38,7 +30,7 @@ class BottomBar extends StatelessWidget {
           child: Row(
             children: [
               /// Leading
-              _wrap(leading),
+              BottomBarItem(child: leading),
 
               /// Center
               Expanded(
@@ -55,7 +47,7 @@ class BottomBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   for (int i = 0; i < (trailing?.length ?? 0); i++) ...[
-                    _wrap(trailing![i]),
+                    BottomBarItem(child: trailing![i]),
                     if (i != trailing!.length - 1) const SizedBox(width: 10),
                   ],
                 ],
@@ -65,5 +57,20 @@ class BottomBar extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class BottomBarItem extends StatelessWidget {
+  final Widget? child;
+
+  const BottomBarItem({super.key, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (child == null) {
+      return const SizedBox(width: 48, height: 48);
+    }
+
+    return SizedBox(width: 48, height: 48, child: Center(child: child));
   }
 }

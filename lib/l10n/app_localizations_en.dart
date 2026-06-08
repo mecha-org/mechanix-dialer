@@ -185,4 +185,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String nameTooLong(int maxLength) {
     return 'Name cannot exceed $maxLength characters';
   }
+
+  @override
+  String get failedToLoadContacts => 'Failed to load contacts';
+
+  @override
+  String get failedToSaveContact => 'Failed to save contact';
+
+  @override
+  String get failedToDeleteContact => 'Failed to delete contact';
+
+  @override
+  String get failedToUpdateContact => 'Failed to update contact';
+
+  @override
+  String get contactsDatabaseUnavailable => 'Contacts database is unavailable';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get failedToSearchContact => 'Failed to search contact';
 }

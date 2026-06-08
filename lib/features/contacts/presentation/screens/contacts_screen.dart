@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:mechanix_dialer/core/constants/icons.dart';
 import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
+import 'package:mechanix_dialer/core/utils/helper.dart';
 import 'package:mechanix_dialer/core/widgets/custom_icon_button.dart';
 import 'package:mechanix_dialer/core/widgets/custom_image_asset.dart';
+import 'package:mechanix_dialer/core/widgets/toast/custom_app_toast.dart';
 import 'package:mechanix_dialer/features/contacts/blocs/contacts_bloc.dart';
 import 'package:mechanix_dialer/features/contacts/blocs/contacts_event.dart';
 import 'package:mechanix_dialer/features/contacts/blocs/contacts_state.dart';
@@ -158,109 +160,125 @@ class _ContactsScreenState extends State<ContactsScreen> {
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.contacts),
-        titleTextStyle: Theme.of(context).textTheme.displaySmall,
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8, top: 8),
-            child: CustomIconButton.icon(
-              iconData: Icons.add,
-              onPressed: _createNewContact,
+    return BlocListener<ContactsBloc, ContactsState>(
+      listenWhen: (previous, current) =>
+          previous.error != current.error &&
+          current.status == ContactsStatus.error,
+      listener: (context, state) {
+        if (state.error == null) return;
+
+        CustomAppToast.show(
+          context: context,
+          message: getErrorMessage(AppLocalizations.of(context)!, state.error!),
+          type: ToastType.error,
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.contacts),
+          titleTextStyle: Theme.of(context).textTheme.displaySmall,
+          automaticallyImplyLeading: false,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8, top: 8),
+              child: CustomIconButton.icon(
+                iconData: Icons.add,
+                onPressed: _createNewContact,
+              ),
             ),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: TextField(
-              controller: _searchController,
-              textInputAction: TextInputAction.search,
-              onChanged: (value) {
-                context.read<ContactsBloc>().add(SearchContacts(value.trim()));
-              },
-              decoration: InputDecoration(
-                hintText: AppLocalizations.of(context)!.searchInContacts,
-                hintStyle: Theme.of(context).textTheme.labelMedium,
-                prefixIcon: const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: CustomImage(assetPath: AppIcons.search, size: 20),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                controller: _searchController,
+                textInputAction: TextInputAction.search,
+                onChanged: (value) {
+                  context.read<ContactsBloc>().add(
+                    SearchContacts(value.trim()),
+                  );
+                },
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.searchInContacts,
+                  hintStyle: Theme.of(context).textTheme.labelMedium,
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: CustomImage(assetPath: AppIcons.search, size: 20),
+                  ),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                  fillColor: AppColors.backgroundVariantDark,
                 ),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                fillColor: AppColors.backgroundVariantDark,
               ),
             ),
           ),
         ),
-      ),
-      body: BlocBuilder<ContactsBloc, ContactsState>(
-        builder: (context, state) {
-          if (state.status == ContactsStatus.loading &&
-              state.contacts.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        body: BlocBuilder<ContactsBloc, ContactsState>(
+          builder: (context, state) {
+            if (state.status == ContactsStatus.loading &&
+                state.contacts.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          return ContactsListView(
-            contacts: state.contacts,
-            myCard: myCard,
-            scrollController: _scrollController,
-            groupKeys: _groupKeys,
-            isScrolling: _isScrolling,
-            isDraggingScrollbar: _isDraggingScrollbar,
-            isAtEnd: _isAtEnd,
-            debounceTimer: _debounceTimer,
-            getInitials: _getInitials,
+            return ContactsListView(
+              contacts: state.contacts,
+              myCard: myCard,
+              scrollController: _scrollController,
+              groupKeys: _groupKeys,
+              isScrolling: _isScrolling,
+              isDraggingScrollbar: _isDraggingScrollbar,
+              isAtEnd: _isAtEnd,
+              debounceTimer: _debounceTimer,
+              getInitials: _getInitials,
 
-            onScrollStart: () {
-              if (!_isScrolling) {
-                setState(() {
-                  _isScrolling = true;
-                });
-              }
-            },
-
-            onScrollEnd: () {
-              _debounceTimer?.cancel();
-
-              _debounceTimer = Timer(const Duration(milliseconds: 800), () {
-                if (mounted) {
+              onScrollStart: () {
+                if (!_isScrolling) {
                   setState(() {
-                    _isScrolling = false;
+                    _isScrolling = true;
                   });
                 }
-              });
-            },
+              },
 
-            onScrollbarDragStart: () {
-              setState(() {
-                _isDraggingScrollbar = true;
-              });
-            },
+              onScrollEnd: () {
+                _debounceTimer?.cancel();
 
-            onScrollbarDragEnd: () {
-              setState(() {
-                _isDraggingScrollbar = false;
-              });
-            },
+                _debounceTimer = Timer(const Duration(milliseconds: 800), () {
+                  if (mounted) {
+                    setState(() {
+                      _isScrolling = false;
+                    });
+                  }
+                });
+              },
 
-            onContactTap: (contact) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ContactDetailsScreen(contact: contact),
-                ),
-              );
-            },
-          );
-        },
+              onScrollbarDragStart: () {
+                setState(() {
+                  _isDraggingScrollbar = true;
+                });
+              },
+
+              onScrollbarDragEnd: () {
+                setState(() {
+                  _isDraggingScrollbar = false;
+                });
+              },
+
+              onContactTap: (contact) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ContactDetailsScreen(contact: contact),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

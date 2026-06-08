@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:alphabet_list_view/alphabet_list_view.dart';
-import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:mechanix_contacts/mechanix_contacts.dart';
-import 'package:mechanix_dialer/features/contacts/presentation/widgets/active_scrollbar_bubble.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/widgets/contacts_group_helper.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/widgets/contacts_list_tile.dart';
+import 'package:mechanix_dialer/features/contacts/presentation/widgets/contacts_scrollbar_symbol.dart';
 import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -44,77 +45,23 @@ class ContactsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, List<ContactEntity>> groups = {};
     final symbols = AppLocalizations.of(context)!.contactAlphabet.split('');
 
-    for (final symbol in symbols) {
-      groups[symbol] = [];
-    }
-
-    for (final contact in contacts) {
-      final firstChar = contact.name.isNotEmpty
-          ? contact.name[0].toUpperCase()
-          : '#';
-
-      groups.putIfAbsent(firstChar, () => []);
-      groups[firstChar]!.add(contact);
-    }
+    final groups = buildContactGroups(contacts, symbols);
 
     final sortedKeys = groups.keys.toList()..sort();
 
-    final List<AlphabetListViewItemGroup> listItems = [];
-
-    for (final key in sortedKeys) {
-      final contactsInGroup = groups[key]!;
-
-      final groupItem = AlphabetListViewItemGroup.builder(
-        tag: key,
-        itemCount: contactsInGroup.length,
-        itemBuilder: (context, index) {
-          final contact = contactsInGroup[index];
-
-          return ListTile(
-            minTileHeight: 70,
-            contentPadding: const EdgeInsets.only(left: 16, right: 16),
-            leading: Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: AppColors.backgroundVariant,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                getInitials(contact.name),
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: AppColors.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            title: Text(
-              contact.name,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(
-                context,
-              ).textTheme.labelMedium?.copyWith(color: AppColors.onSurface),
-            ),
-            subtitle: Text(
-              contact.phoneNumbers.isNotEmpty
-                  ? contact.phoneNumbers.first.number
-                  : AppLocalizations.of(context)!.noPhoneNumbers,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppColors.onSurfaceVariantDark,
-              ),
-            ),
-            onTap: () => onContactTap(contact),
-          );
-        },
-      );
-
-      groupKeys[key] = groupItem.key;
-      listItems.add(groupItem);
-    }
+    final listItems = buildListItems(
+      groups: groups,
+      groupKeys: groupKeys,
+      itemBuilder: (contact) {
+        return ContactListTile(
+          contact: contact,
+          initials: getInitials(contact.name),
+          onTap: () => onContactTap(contact),
+        );
+      },
+    );
 
     if (listItems.isEmpty) {
       return Column(
@@ -173,62 +120,19 @@ class ContactsListView extends StatelessWidget {
                 symbols: symbols,
                 jumpToSymbolsWithNoEntries: true,
                 symbolBuilder: (context, symbol, sidebarState) {
-                  var isActive =
-                      sidebarState == AlphabetScrollbarItemState.active;
+                  final lastActiveSymbol = sortedKeys.lastWhere(
+                    (key) => groups[key]!.isNotEmpty,
+                    orElse: () => '',
+                  );
 
-                  if (isAtEnd && !isDraggingScrollbar) {
-                    final lastActiveSymbol = sortedKeys.lastWhere(
-                      (key) => groups[key]!.isNotEmpty,
-                      orElse: () => '',
-                    );
-
-                    isActive = symbol == lastActiveSymbol;
-                  }
-
-                  final showBubble =
-                      isActive && (isScrolling || isDraggingScrollbar);
-
-                  if (showBubble) {
-                    double verticalAlignment = 0.0;
-
-                    if (symbol == symbols.first) {
-                      verticalAlignment = -1.0;
-                    } else if (symbol == symbols.last) {
-                      verticalAlignment = 1.0;
-                    }
-
-                    return ActiveScrollbarBubble(
-                      symbol: symbol,
-                      verticalAlignment: verticalAlignment,
-                    );
-                  }
-
-                  if (isActive) {
-                    return Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        width: 4,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: AppColors.onSurfaceVariant,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    );
-                  }
-
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: AppColors.onSurfaceVariantDark,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
+                  return ContactsScrollbarSymbol(
+                    symbol: symbol,
+                    symbols: symbols,
+                    sidebarState: sidebarState,
+                    isAtEnd: isAtEnd,
+                    isDraggingScrollbar: isDraggingScrollbar,
+                    isScrolling: isScrolling,
+                    lastActiveSymbol: lastActiveSymbol,
                   );
                 },
               ),

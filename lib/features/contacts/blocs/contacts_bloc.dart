@@ -22,7 +22,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
       AppLogger.e('Failed to load contacts: $e');
-      emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
+      emit(
+        state.copyWith(
+          status: ContactsStatus.error,
+          error: ContactsError.loadFailed,
+        ),
+      );
     }
   }
 
@@ -34,7 +39,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
       AppLogger.e('Failed to save contact: $e');
-      emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
+      emit(
+        state.copyWith(
+          status: ContactsStatus.error,
+          error: ContactsError.saveFailed,
+        ),
+      );
     }
   }
 
@@ -49,7 +59,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
       AppLogger.e('Failed to delete contact: $e');
-      emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
+      emit(
+        state.copyWith(
+          status: ContactsStatus.error,
+          error: ContactsError.deleteFailed,
+        ),
+      );
     }
   }
 
@@ -63,7 +78,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: results));
     } catch (e) {
       AppLogger.e('Failed to search contacts: $e');
-      emit(state.copyWith(status: ContactsStatus.error, error: e.toString()));
+      emit(
+        state.copyWith(
+          status: ContactsStatus.error,
+          error: ContactsError.searchFailed,
+        ),
+      );
     }
   }
 }

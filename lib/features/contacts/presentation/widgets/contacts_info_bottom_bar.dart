@@ -5,16 +5,12 @@ import 'package:mechanix_dialer/core/widgets/custom_icon_button.dart';
 
 class ContactsInfoBottomBar extends StatelessWidget {
   final VoidCallback onBack;
-  final VoidCallback onCall;
-  final VoidCallback onMessage;
   final VoidCallback onMore;
   final bool isMenuActive;
 
   const ContactsInfoBottomBar({
     super.key,
     required this.onBack,
-    required this.onCall,
-    required this.onMessage,
     required this.onMore,
     required this.isMenuActive,
   });
