@@ -4,7 +4,8 @@ import 'package:dialer/core/utils/helper.dart';
 import 'package:dialer/core/widgets/custom_image_asset.dart';
 import 'package:dialer/features/contacts/blocs/contacts_bloc.dart';
 import 'package:dialer/features/contacts/blocs/contacts_event.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:dialer/features/contacts/presentation/screens/contact_form_screen.dart';
 import 'package:dialer/features/contacts/presentation/widgets/contact_details_content.dart';
 import 'package:dialer/features/contacts/presentation/widgets/contacts_action_menu.dart';
@@ -12,8 +13,6 @@ import 'package:dialer/features/contacts/presentation/widgets/contacts_info_bott
 import 'package:dialer/features/contacts/presentation/widgets/delete_contact_confirmation.dart';
 import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
 import 'package:dialer/features/dialer/blocs/dialer_event.dart';
-import 'package:dialer/features/dialer/data/models/sim_card.dart';
-import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
 import 'package:dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +48,7 @@ class ContactDetailsScreenState extends State<ContactDetailsScreen> {
   }
 
   Future<void> _loadSimCards() async {
-    final simCards = await context.read<RecentCallsRepository>().getSimCards();
+    final simCards = await context.read<ContactsRepository>().getSimCards();
     if (mounted && simCards.isNotEmpty) {
       setState(() {
         _simCards = simCards;

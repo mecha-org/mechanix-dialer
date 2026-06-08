@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:alphabet_list_view/alphabet_list_view.dart';
 import 'package:dialer/core/theme/app_theme.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:dialer/features/contacts/presentation/widgets/active_scrollbar_bubble.dart';
 import 'package:dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';

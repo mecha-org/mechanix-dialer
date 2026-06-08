@@ -13,91 +13,11 @@ import 'package:objectbox/internal.dart'
     as obx_int; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart' as obx;
 
-import 'features/contacts/data/models/contacts.dart';
-import 'features/contacts/data/models/email.dart';
-import 'features/contacts/data/models/phone_numbers.dart';
-import 'features/dialer/data/models/sim_card.dart';
 import 'features/recents/data/models/recent_calls.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
-  obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 5490134095863070759),
-    name: 'ContactEntity',
-    lastPropertyId: const obx_int.IdUid(4, 3159367242214690566),
-    flags: 0,
-    properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3025916304853472201),
-        name: 'id',
-        type: 6,
-        flags: 1,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 1839559343724453746),
-        name: 'name',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5736702297189296602),
-        name: 'favorite',
-        type: 1,
-        flags: 0,
-      ),
-    ],
-    relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[
-      obx_int.ModelBacklink(
-        name: 'phoneNumbers',
-        srcEntity: 'PhoneNumberEntity',
-        srcField: '',
-      ),
-      obx_int.ModelBacklink(
-        name: 'emails',
-        srcEntity: 'EmailEntity',
-        srcField: '',
-      ),
-    ],
-  ),
-  obx_int.ModelEntity(
-    id: const obx_int.IdUid(2, 3130716851358388790),
-    name: 'PhoneNumberEntity',
-    lastPropertyId: const obx_int.IdUid(4, 2654578565469083360),
-    flags: 0,
-    properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 8657377132596357409),
-        name: 'id',
-        type: 6,
-        flags: 1,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 9043123941580051961),
-        name: 'number',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 2485496861647735794),
-        name: 'label',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 2654578565469083360),
-        name: 'contactId',
-        type: 11,
-        flags: 520,
-        indexId: const obx_int.IdUid(1, 926808214817580387),
-        relationField: 'contact',
-        relationTarget: 'ContactEntity',
-      ),
-    ],
-    relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[],
-  ),
   obx_int.ModelEntity(
     id: const obx_int.IdUid(3, 661755399947752582),
     name: 'RecentCallEntity',
@@ -143,77 +63,6 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(7, 6959831930144138143),
         name: 'simNumber',
-        type: 9,
-        flags: 0,
-      ),
-    ],
-    relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[],
-  ),
-  obx_int.ModelEntity(
-    id: const obx_int.IdUid(4, 8296614410940130872),
-    name: 'EmailEntity',
-    lastPropertyId: const obx_int.IdUid(4, 5318460539018842769),
-    flags: 0,
-    properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 8793770246221430665),
-        name: 'id',
-        type: 6,
-        flags: 1,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 8371416544103031036),
-        name: 'email',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 3081770792408261831),
-        name: 'label',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 5318460539018842769),
-        name: 'contactId',
-        type: 11,
-        flags: 520,
-        indexId: const obx_int.IdUid(2, 7020718015760467611),
-        relationField: 'contact',
-        relationTarget: 'ContactEntity',
-      ),
-    ],
-    relations: <obx_int.ModelRelation>[],
-    backlinks: <obx_int.ModelBacklink>[],
-  ),
-  obx_int.ModelEntity(
-    id: const obx_int.IdUid(5, 6009832948164404529),
-    name: 'SimCardEntity',
-    lastPropertyId: const obx_int.IdUid(4, 3883139867110059478),
-    flags: 0,
-    properties: <obx_int.ModelProperty>[
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 1977635480159000644),
-        name: 'id',
-        type: 6,
-        flags: 1,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 3987254982685156246),
-        name: 'slot',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 6092904647696910603),
-        name: 'name',
-        type: 9,
-        flags: 0,
-      ),
-      obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 3883139867110059478),
-        name: 'number',
         type: 9,
         flags: 0,
       ),
@@ -269,9 +118,31 @@ obx_int.ModelDefinition getObjectBoxModel() {
     lastIndexId: const obx_int.IdUid(2, 7020718015760467611),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
-    retiredEntityUids: const [],
+    retiredEntityUids: const [
+      5490134095863070759,
+      3130716851358388790,
+      8296614410940130872,
+      6009832948164404529,
+    ],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [3159367242214690566],
+    retiredPropertyUids: const [
+      3159367242214690566,
+      3025916304853472201,
+      1839559343724453746,
+      5736702297189296602,
+      8657377132596357409,
+      9043123941580051961,
+      2485496861647735794,
+      2654578565469083360,
+      8793770246221430665,
+      8371416544103031036,
+      3081770792408261831,
+      5318460539018842769,
+      1977635480159000644,
+      3987254982685156246,
+      6092904647696910603,
+      3883139867110059478,
+    ],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -279,111 +150,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
   );
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    ContactEntity: obx_int.EntityDefinition<ContactEntity>(
-      model: _entities[0],
-      toOneRelations: (ContactEntity object) => [],
-      toManyRelations: (ContactEntity object) => {
-        obx_int.RelInfo<PhoneNumberEntity>.toOneBacklink(
-          4,
-          object.id,
-          (PhoneNumberEntity srcObject) => srcObject.contact,
-        ): object.phoneNumbers,
-        obx_int.RelInfo<EmailEntity>.toOneBacklink(
-          4,
-          object.id,
-          (EmailEntity srcObject) => srcObject.contact,
-        ): object.emails,
-      },
-      getId: (ContactEntity object) => object.id,
-      setId: (ContactEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (ContactEntity object, fb.Builder fbb) {
-        final nameOffset = fbb.writeString(object.name);
-        fbb.startTable(5);
-        fbb.addInt64(0, object.id);
-        fbb.addOffset(1, nameOffset);
-        fbb.addBool(2, object.favorite);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final nameParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final favoriteParam = const fb.BoolReader().vTableGet(
-          buffer,
-          rootOffset,
-          8,
-          false,
-        );
-        final object = ContactEntity(name: nameParam, favorite: favoriteParam)
-          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        obx_int.InternalToManyAccess.setRelInfo<ContactEntity>(
-          object.phoneNumbers,
-          store,
-          obx_int.RelInfo<PhoneNumberEntity>.toOneBacklink(
-            4,
-            object.id,
-            (PhoneNumberEntity srcObject) => srcObject.contact,
-          ),
-        );
-        obx_int.InternalToManyAccess.setRelInfo<ContactEntity>(
-          object.emails,
-          store,
-          obx_int.RelInfo<EmailEntity>.toOneBacklink(
-            4,
-            object.id,
-            (EmailEntity srcObject) => srcObject.contact,
-          ),
-        );
-        return object;
-      },
-    ),
-    PhoneNumberEntity: obx_int.EntityDefinition<PhoneNumberEntity>(
-      model: _entities[1],
-      toOneRelations: (PhoneNumberEntity object) => [object.contact],
-      toManyRelations: (PhoneNumberEntity object) => {},
-      getId: (PhoneNumberEntity object) => object.id,
-      setId: (PhoneNumberEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (PhoneNumberEntity object, fb.Builder fbb) {
-        final numberOffset = fbb.writeString(object.number);
-        final labelOffset = fbb.writeString(object.label);
-        fbb.startTable(5);
-        fbb.addInt64(0, object.id);
-        fbb.addOffset(1, numberOffset);
-        fbb.addOffset(2, labelOffset);
-        fbb.addInt64(3, object.contact.targetId);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final numberParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final labelParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final object = PhoneNumberEntity(number: numberParam, label: labelParam)
-          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        object.contact.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          10,
-          0,
-        );
-        object.contact.attach(store);
-        return object;
-      },
-    ),
     RecentCallEntity: obx_int.EntityDefinition<RecentCallEntity>(
-      model: _entities[2],
+      model: _entities[0],
       toOneRelations: (RecentCallEntity object) => [],
       toManyRelations: (RecentCallEntity object) => {},
       getId: (RecentCallEntity object) => object.id,
@@ -446,232 +214,45 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
-    EmailEntity: obx_int.EntityDefinition<EmailEntity>(
-      model: _entities[3],
-      toOneRelations: (EmailEntity object) => [object.contact],
-      toManyRelations: (EmailEntity object) => {},
-      getId: (EmailEntity object) => object.id,
-      setId: (EmailEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (EmailEntity object, fb.Builder fbb) {
-        final emailOffset = fbb.writeString(object.email);
-        final labelOffset = fbb.writeString(object.label);
-        fbb.startTable(5);
-        fbb.addInt64(0, object.id);
-        fbb.addOffset(1, emailOffset);
-        fbb.addOffset(2, labelOffset);
-        fbb.addInt64(3, object.contact.targetId);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final emailParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final labelParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final object = EmailEntity(email: emailParam, label: labelParam)
-          ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-        object.contact.targetId = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          10,
-          0,
-        );
-        object.contact.attach(store);
-        return object;
-      },
-    ),
-    SimCardEntity: obx_int.EntityDefinition<SimCardEntity>(
-      model: _entities[4],
-      toOneRelations: (SimCardEntity object) => [],
-      toManyRelations: (SimCardEntity object) => {},
-      getId: (SimCardEntity object) => object.id,
-      setId: (SimCardEntity object, int id) {
-        object.id = id;
-      },
-      objectToFB: (SimCardEntity object, fb.Builder fbb) {
-        final slotOffset = fbb.writeString(object.slot);
-        final nameOffset = fbb.writeString(object.name);
-        final numberOffset = fbb.writeString(object.number);
-        fbb.startTable(5);
-        fbb.addInt64(0, object.id);
-        fbb.addOffset(1, slotOffset);
-        fbb.addOffset(2, nameOffset);
-        fbb.addOffset(3, numberOffset);
-        fbb.finish(fbb.endTable());
-        return object.id;
-      },
-      objectFromFB: (obx.Store store, ByteData fbData) {
-        final buffer = fb.BufferContext(fbData);
-        final rootOffset = buffer.derefObject(0);
-        final idParam = const fb.Int64Reader().vTableGet(
-          buffer,
-          rootOffset,
-          4,
-          0,
-        );
-        final slotParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 6, '');
-        final nameParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 8, '');
-        final numberParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGet(buffer, rootOffset, 10, '');
-        final object = SimCardEntity(
-          id: idParam,
-          slot: slotParam,
-          name: nameParam,
-          number: numberParam,
-        );
-
-        return object;
-      },
-    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
-}
-
-/// [ContactEntity] entity fields to define ObjectBox queries.
-class ContactEntity_ {
-  /// See [ContactEntity.id].
-  static final id = obx.QueryIntegerProperty<ContactEntity>(
-    _entities[0].properties[0],
-  );
-
-  /// See [ContactEntity.name].
-  static final name = obx.QueryStringProperty<ContactEntity>(
-    _entities[0].properties[1],
-  );
-
-  /// See [ContactEntity.favorite].
-  static final favorite = obx.QueryBooleanProperty<ContactEntity>(
-    _entities[0].properties[2],
-  );
-
-  /// see [ContactEntity.phoneNumbers]
-  static final phoneNumbers =
-      obx.QueryBacklinkToMany<PhoneNumberEntity, ContactEntity>(
-        PhoneNumberEntity_.contact,
-      );
-
-  /// see [ContactEntity.emails]
-  static final emails = obx.QueryBacklinkToMany<EmailEntity, ContactEntity>(
-    EmailEntity_.contact,
-  );
-}
-
-/// [PhoneNumberEntity] entity fields to define ObjectBox queries.
-class PhoneNumberEntity_ {
-  /// See [PhoneNumberEntity.id].
-  static final id = obx.QueryIntegerProperty<PhoneNumberEntity>(
-    _entities[1].properties[0],
-  );
-
-  /// See [PhoneNumberEntity.number].
-  static final number = obx.QueryStringProperty<PhoneNumberEntity>(
-    _entities[1].properties[1],
-  );
-
-  /// See [PhoneNumberEntity.label].
-  static final label = obx.QueryStringProperty<PhoneNumberEntity>(
-    _entities[1].properties[2],
-  );
-
-  /// See [PhoneNumberEntity.contact].
-  static final contact =
-      obx.QueryRelationToOne<PhoneNumberEntity, ContactEntity>(
-        _entities[1].properties[3],
-      );
 }
 
 /// [RecentCallEntity] entity fields to define ObjectBox queries.
 class RecentCallEntity_ {
   /// See [RecentCallEntity.id].
   static final id = obx.QueryIntegerProperty<RecentCallEntity>(
-    _entities[2].properties[0],
+    _entities[0].properties[0],
   );
 
   /// See [RecentCallEntity.name].
   static final name = obx.QueryStringProperty<RecentCallEntity>(
-    _entities[2].properties[1],
+    _entities[0].properties[1],
   );
 
   /// See [RecentCallEntity.phoneNumber].
   static final phoneNumber = obx.QueryStringProperty<RecentCallEntity>(
-    _entities[2].properties[2],
+    _entities[0].properties[2],
   );
 
   /// See [RecentCallEntity.timestamp].
   static final timestamp = obx.QueryDateProperty<RecentCallEntity>(
-    _entities[2].properties[3],
+    _entities[0].properties[3],
   );
 
   /// See [RecentCallEntity.durationSeconds].
   static final durationSeconds = obx.QueryIntegerProperty<RecentCallEntity>(
-    _entities[2].properties[4],
+    _entities[0].properties[4],
   );
 
   /// See [RecentCallEntity.callTypeIndex].
   static final callTypeIndex = obx.QueryIntegerProperty<RecentCallEntity>(
-    _entities[2].properties[5],
+    _entities[0].properties[5],
   );
 
   /// See [RecentCallEntity.simNumber].
   static final simNumber = obx.QueryStringProperty<RecentCallEntity>(
-    _entities[2].properties[6],
-  );
-}
-
-/// [EmailEntity] entity fields to define ObjectBox queries.
-class EmailEntity_ {
-  /// See [EmailEntity.id].
-  static final id = obx.QueryIntegerProperty<EmailEntity>(
-    _entities[3].properties[0],
-  );
-
-  /// See [EmailEntity.email].
-  static final email = obx.QueryStringProperty<EmailEntity>(
-    _entities[3].properties[1],
-  );
-
-  /// See [EmailEntity.label].
-  static final label = obx.QueryStringProperty<EmailEntity>(
-    _entities[3].properties[2],
-  );
-
-  /// See [EmailEntity.contact].
-  static final contact = obx.QueryRelationToOne<EmailEntity, ContactEntity>(
-    _entities[3].properties[3],
-  );
-}
-
-/// [SimCardEntity] entity fields to define ObjectBox queries.
-class SimCardEntity_ {
-  /// See [SimCardEntity.id].
-  static final id = obx.QueryIntegerProperty<SimCardEntity>(
-    _entities[4].properties[0],
-  );
-
-  /// See [SimCardEntity.slot].
-  static final slot = obx.QueryStringProperty<SimCardEntity>(
-    _entities[4].properties[1],
-  );
-
-  /// See [SimCardEntity.name].
-  static final name = obx.QueryStringProperty<SimCardEntity>(
-    _entities[4].properties[2],
-  );
-
-  /// See [SimCardEntity.number].
-  static final number = obx.QueryStringProperty<SimCardEntity>(
-    _entities[4].properties[3],
+    _entities[0].properties[6],
   );
 }

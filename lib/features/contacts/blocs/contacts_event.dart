@@ -1,4 +1,4 @@
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ContactsEvent extends Equatable {

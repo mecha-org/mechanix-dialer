@@ -1,99 +1,61 @@
-import 'dart:io';
-
-import 'package:dialer/core/exceptions/app_exception.dart';
 import 'package:dialer/core/utils/app_logger.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
-import 'package:dialer/features/contacts/data/models/email.dart';
-import 'package:dialer/features/contacts/data/models/phone_numbers.dart';
-import 'package:dialer/objectbox.g.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
+
 import 'contacts_repository.dart';
 
 class ContactsRepositoryImpl implements ContactsRepository {
-  Store? _store;
-  Box<ContactEntity>? _box;
-  Box<PhoneNumberEntity>? _phoneNumberBox;
-  Box<EmailEntity>? _emailBox;
-  Future<void>? _initFuture;
+  /// Optional ObjectBox store used for testing.
+  /// When provided, all repository operations use this store instead of the
+  /// shared [ContactsStoreService] store.
+  final Store? store;
 
-  ContactsRepositoryImpl({Store? store}) : _store = store {
-    if (store != null) {
-      _box = store.box<ContactEntity>();
-      _phoneNumberBox = store.box<PhoneNumberEntity>();
-      _emailBox = store.box<EmailEntity>();
+  ContactsRepositoryImpl({this.store});
+
+  /// Returns the active ObjectBox store.
+  /// Uses the injected [store] when available; otherwise falls back to the
+  /// shared store managed by [ContactsStoreService].
+  Store get _dbStore => store ?? ContactsStoreService.store;
+  Box<ContactEntity> get _contacts => _dbStore.box<ContactEntity>();
+  Box<PhoneNumberEntity> get _phoneNumbers => _dbStore.box<PhoneNumberEntity>();
+  Box<EmailEntity> get _emails => _dbStore.box<EmailEntity>();
+  Box<SimCardEntity> get _sims => _dbStore.box<SimCardEntity>();
+
+  /// Ensures the shared contacts store is initialized before performing
+  /// repository operations.
+  /// This is skipped when a test store is injected through the constructor.
+  Future<void> _ensureConnected() async {
+    if (store == null) {
+      await ContactsStoreService.ensureConnected();
     }
-  }
-
-  Future<void> ensureStoreConnected() async {
-    if (_store != null && !_store!.isClosed()) {
-      return;
-    }
-
-    if (_initFuture != null) {
-      await _initFuture;
-      return;
-    }
-
-    try {
-      _initFuture = _initializeStore();
-      await _initFuture;
-    } catch (e) {
-      AppLogger.e('Failed to open ObjectBox store for contacts: $e');
-      if (e is FileSystemException && e.message.contains('lock failed')) {
-        throw AppAlreadyRunningException();
-      }
-      rethrow;
-    } finally {
-      _initFuture = null;
-    }
-  }
-
-  Future<void> _initializeStore() async {
-    try {
-      final home = Platform.environment['HOME'];
-      final appDir = Directory('$home/.config/mechanix_contacts/objectbox');
-      final exists = await appDir.exists();
-
-      if (!exists) {
-        await appDir.create(recursive: true);
-      }
-
-      _store = openStore(directory: appDir.path);
-      _box = _store!.box<ContactEntity>();
-      _phoneNumberBox = _store!.box<PhoneNumberEntity>();
-      _emailBox = _store!.box<EmailEntity>();
-
-      AppLogger.i(
-        '[ContactsRepository] ObjectBox store opened at ${appDir.path}',
-      );
-    } catch (e) {
-      AppLogger.e('Failed to initialize ObjectBox store for contacts: $e');
-      rethrow;
-    }
-  }
-
-  void closeStore() {
-    _store?.close();
-    _store = null;
-    _box = null;
-    _phoneNumberBox = null;
   }
 
   @override
   Future<List<ContactEntity>> getAll() async {
-    await ensureStoreConnected();
-    final query = _box!.query().order(ContactEntity_.name).build();
-
     try {
-      return query.find();
-    } finally {
-      query.close();
+      await _ensureConnected();
+
+      final query = _contacts.query().order(ContactEntity_.name).build();
+
+      try {
+        return query.find();
+      } finally {
+        query.close();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to get contacts: $e', stack: stackTrace);
+      rethrow;
     }
   }
 
   @override
   Future<ContactEntity?> getById(int id) async {
-    await ensureStoreConnected();
-    return _box!.get(id);
+    try {
+      await _ensureConnected();
+      return _contacts.get(id);
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to get contact by id $id: $e', stack: stackTrace);
+      rethrow;
+    }
   }
 
   @override
@@ -102,103 +64,158 @@ class ContactsRepositoryImpl implements ContactsRepository {
     List<String> numbers,
     List<String>? emails,
   ) async {
-    await ensureStoreConnected();
+    try {
+      await _ensureConnected();
 
-    _store!.runInTransaction(TxMode.write, () {
-      // If editing, clear existing numbers, emails of this contact first
-      if (contact.id != 0) {
-        final existingNumbers = _phoneNumberBox!
-            .query(PhoneNumberEntity_.contact.equals(contact.id))
-            .build()
-            .find();
-        _phoneNumberBox!.removeMany(existingNumbers.map((n) => n.id).toList());
+      ContactsStoreService.store.runInTransaction(TxMode.write, () {
+        if (contact.id != 0) {
+          final existingNumbers = _phoneNumbers
+              .query(PhoneNumberEntity_.contact.equals(contact.id))
+              .build()
+              .find();
 
-        final existingEmails = _emailBox!
-            .query(EmailEntity_.contact.equals(contact.id))
-            .build()
-            .find();
-        _emailBox!.removeMany(existingEmails.map((e) => e.id).toList());
-      }
+          _phoneNumbers.removeMany(existingNumbers.map((n) => n.id).toList());
 
-      // Save contact first to get an ID
-      _box!.put(contact);
+          final existingEmails = _emails
+              .query(EmailEntity_.contact.equals(contact.id))
+              .build()
+              .find();
 
-      // Save new phone numbers
-      for (final numStr in numbers) {
-        if (numStr.trim().isEmpty) continue;
-        final phone = PhoneNumberEntity(number: numStr.trim());
-        phone.contact.target = contact;
-        _phoneNumberBox!.put(phone);
-      }
+          _emails.removeMany(existingEmails.map((e) => e.id).toList());
+        }
 
-      final uniqueEmails = (emails ?? [])
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toSet();
+        _contacts.put(contact);
 
-      for (final emailStr in uniqueEmails) {
-        final email = EmailEntity(email: emailStr);
-        email.contact.target = contact;
-        _emailBox!.put(email);
-      }
-    });
+        for (final numStr in numbers) {
+          if (numStr.trim().isEmpty) continue;
+
+          final phone = PhoneNumberEntity(number: numStr.trim());
+          phone.contact.target = contact;
+
+          _phoneNumbers.put(phone);
+        }
+
+        final uniqueEmails = (emails ?? [])
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toSet();
+
+        for (final emailStr in uniqueEmails) {
+          final email = EmailEntity(email: emailStr);
+          email.contact.target = contact;
+
+          _emails.put(email);
+        }
+      });
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to save contact: $e', stack: stackTrace);
+      rethrow;
+    }
   }
 
   @override
   Future<void> delete(int id) async {
-    await ensureStoreConnected();
-    _store!.runInTransaction(TxMode.write, () {
-      // Remove all phone numbers, emails for this contact first
-      final existingNumbers = _phoneNumberBox!
-          .query(PhoneNumberEntity_.contact.equals(id))
-          .build()
-          .find();
-      _phoneNumberBox!.removeMany(existingNumbers.map((n) => n.id).toList());
+    try {
+      await _ensureConnected();
 
-      final existingEmails = _emailBox!
-          .query(EmailEntity_.contact.equals(id))
-          .build()
-          .find();
-      _emailBox!.removeMany(existingEmails.map((e) => e.id).toList());
-      // Then remove the contact
-      _box!.remove(id);
-    });
+      ContactsStoreService.store.runInTransaction(TxMode.write, () {
+        final existingNumbers = _phoneNumbers
+            .query(PhoneNumberEntity_.contact.equals(id))
+            .build()
+            .find();
+
+        _phoneNumbers.removeMany(existingNumbers.map((n) => n.id).toList());
+
+        final existingEmails = _emails
+            .query(EmailEntity_.contact.equals(id))
+            .build()
+            .find();
+
+        _emails.removeMany(existingEmails.map((e) => e.id).toList());
+
+        _contacts.remove(id);
+      });
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to delete contact $id: $e', stack: stackTrace);
+      rethrow;
+    }
   }
 
   @override
   Future<List<ContactEntity>> search(String queryStr) async {
-    await ensureStoreConnected();
-
-    if (queryStr.trim().isEmpty) {
-      return getAll();
-    }
-
-    // Find all contact IDs that have matching phone numbers
-    final matchingPhoneNumbers = _phoneNumberBox!
-        .query(PhoneNumberEntity_.number.contains(queryStr))
-        .build()
-        .find();
-    final contactIdsFromNumbers = matchingPhoneNumbers
-        .map((p) => p.contact.targetId)
-        .where((id) => id != 0)
-        .toSet();
-
-    // Find all contacts that match name OR have matching phone numbers
-    final Condition<ContactEntity> cond;
-    if (contactIdsFromNumbers.isNotEmpty) {
-      cond = ContactEntity_.name
-          .contains(queryStr, caseSensitive: false)
-          .or(ContactEntity_.id.oneOf(contactIdsFromNumbers.toList()));
-    } else {
-      cond = ContactEntity_.name.contains(queryStr, caseSensitive: false);
-    }
-
-    final query = _box!.query(cond).order(ContactEntity_.name).build();
-
     try {
-      return query.find();
-    } finally {
-      query.close();
+      await _ensureConnected();
+
+      if (queryStr.trim().isEmpty) {
+        return getAll();
+      }
+
+      final matchingPhoneNumbers = _phoneNumbers
+          .query(PhoneNumberEntity_.number.contains(queryStr))
+          .build()
+          .find();
+
+      final contactIdsFromNumbers = matchingPhoneNumbers
+          .map((p) => p.contact.targetId)
+          .where((id) => id != 0)
+          .toSet();
+
+      final Condition<ContactEntity> condition;
+
+      if (contactIdsFromNumbers.isNotEmpty) {
+        condition = ContactEntity_.name
+            .contains(queryStr, caseSensitive: false)
+            .or(ContactEntity_.id.oneOf(contactIdsFromNumbers.toList()));
+      } else {
+        condition = ContactEntity_.name.contains(
+          queryStr,
+          caseSensitive: false,
+        );
+      }
+
+      final query = _contacts
+          .query(condition)
+          .order(ContactEntity_.name)
+          .build();
+
+      try {
+        return query.find();
+      } finally {
+        query.close();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.e(
+        'Failed to search contacts with query "$queryStr": $e',
+        stack: stackTrace,
+      );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SimCardEntity>> getSimCards() async {
+    try {
+      await _ensureConnected();
+
+      final count = _sims.count();
+
+      if (count == 0) {
+        // TODO: Remove this once SIM data comes from system APIs
+        ContactsStoreService.store.runInTransaction(TxMode.write, () {
+          _sims.put(
+            SimCardEntity(slot: '1', name: 'Primary', number: '01-554738'),
+          );
+
+          _sims.put(
+            SimCardEntity(slot: '2', name: 'Secondary', number: '01-626262'),
+          );
+        });
+      }
+
+      return _sims.getAll();
+    } catch (e, stackTrace) {
+      AppLogger.e('Failed to get SIM cards: $e', stack: stackTrace);
+      rethrow;
     }
   }
 }

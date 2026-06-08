@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dialer/core/exceptions/app_exception.dart';
 import 'package:dialer/core/utils/app_logger.dart';
 import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/dialer/data/models/sim_card.dart';
 import 'package:dialer/features/recents/data/models/recent_calls.dart';
 import 'package:dialer/objectbox.g.dart';
 import 'recent_calls_repository.dart';
@@ -11,13 +10,11 @@ import 'recent_calls_repository.dart';
 class RecentCallsRepositoryImpl implements RecentCallsRepository {
   Store? _store;
   Box<RecentCallEntity>? _box;
-  Box<SimCardEntity>? _simBox;
   Future<void>? _initFuture;
 
   RecentCallsRepositoryImpl({Store? store}) : _store = store {
     if (store != null) {
       _box = store.box<RecentCallEntity>();
-      _simBox = store.box<SimCardEntity>();
     }
   }
 
@@ -59,7 +56,6 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
 
       _store = openStore(directory: appDir.path);
       _box = _store!.box<RecentCallEntity>();
-      _simBox = _store!.box<SimCardEntity>();
 
       AppLogger.i(
         '[RecentCallRepository] ObjectBox store opened at ${appDir.path}',
@@ -74,7 +70,6 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
     _store?.close();
     _store = null;
     _box = null;
-    _simBox = null;
   }
 
   @override
@@ -206,23 +201,5 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
     } finally {
       query.close();
     }
-  }
-
-  @override
-  Future<List<SimCardEntity>> getSimCards() async {
-    await ensureStoreConnected();
-    final count = _simBox!.count();
-    if (count == 0) {
-      // TODO: Remove this logic once actual SIM card data is available
-      _store!.runInTransaction(TxMode.write, () {
-        _simBox!.put(
-          SimCardEntity(slot: '1', name: 'Primary', number: '01-554738'),
-        );
-        _simBox!.put(
-          SimCardEntity(slot: '2', name: 'Secondary', number: '01-626262'),
-        );
-      });
-    }
-    return _simBox!.getAll();
   }
 }

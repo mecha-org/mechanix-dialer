@@ -36,6 +36,12 @@ class AppTheme {
         thickness: WidgetStatePropertyAll(4),
         thumbColor: WidgetStatePropertyAll(AppColors.onSurfaceVariantDark),
       ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {TargetPlatform.linux: CupertinoPageTransitionsBuilder()},
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: AppColors.onSurface,
+      ),
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontSize: 60,

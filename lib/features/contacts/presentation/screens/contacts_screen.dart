@@ -7,7 +7,7 @@ import 'package:dialer/core/widgets/custom_image_asset.dart';
 import 'package:dialer/features/contacts/blocs/contacts_bloc.dart';
 import 'package:dialer/features/contacts/blocs/contacts_event.dart';
 import 'package:dialer/features/contacts/blocs/contacts_state.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:dialer/features/contacts/presentation/screens/contact_details_screen.dart';
 import 'package:dialer/features/contacts/presentation/screens/contact_form_screen.dart';
 import 'package:dialer/features/contacts/presentation/widgets/contacts_list_view.dart';

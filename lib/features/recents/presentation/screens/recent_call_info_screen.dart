@@ -2,13 +2,14 @@ import 'package:dialer/core/constants/icons.dart';
 import 'package:dialer/core/theme/app_theme.dart';
 import 'package:dialer/core/utils/helper.dart';
 import 'package:dialer/core/widgets/custom_image_asset.dart';
-import 'package:dialer/features/dialer/data/models/sim_card.dart';
+import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
 import 'package:dialer/features/recents/data/models/recent_calls.dart';
 import 'package:dialer/features/recents/data/repositories/recent_calls_repository.dart';
 import 'package:dialer/features/recents/presentation/widgets/info_bottom_bar.dart';
 import 'package:dialer/features/recents/presentation/widgets/info_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mechanix_contacts/features/contacts/data/models/sim_card.dart';
 
 class RecentCallsInfoScreen extends StatefulWidget {
   final RecentCallEntity call;
@@ -34,9 +35,11 @@ class _RecentCallsInfoScreenState extends State<RecentCallsInfoScreen> {
 
   Future<void> _loadContactHistory() async {
     try {
-      final repo = context.read<RecentCallsRepository>();
-      final allCalls = await repo.getAll();
-      final simCards = await repo.getSimCards();
+      final recentsRepo = context.read<RecentCallsRepository>();
+      final contactsRepo = context.read<ContactsRepository>();
+
+      final allCalls = await recentsRepo.getAll();
+      final simCards = await contactsRepo.getSimCards();
 
       final targetName = widget.call.name;
       final targetPhone = widget.call.phoneNumber;

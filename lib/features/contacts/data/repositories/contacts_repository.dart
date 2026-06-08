@@ -1,4 +1,4 @@
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 
 abstract class ContactsRepository {
   Future<List<ContactEntity>> getAll();
@@ -14,4 +14,6 @@ abstract class ContactsRepository {
   Future<void> delete(int id);
 
   Future<List<ContactEntity>> search(String query);
+
+  Future<List<SimCardEntity>> getSimCards();
 }

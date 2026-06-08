@@ -1,4 +1,3 @@
-import 'package:dialer/features/dialer/data/models/sim_card.dart';
 import 'package:dialer/features/recents/data/models/recent_calls.dart';
 
 abstract class RecentCallsRepository {
@@ -25,6 +24,4 @@ abstract class RecentCallsRepository {
     required DateTime lastTimestamp,
     int limit,
   });
-
-  Future<List<SimCardEntity>> getSimCards();
 }

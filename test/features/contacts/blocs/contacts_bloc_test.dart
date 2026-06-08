@@ -3,9 +3,9 @@ import 'package:dialer/core/utils/enums.dart';
 import 'package:dialer/features/contacts/blocs/contacts_bloc.dart';
 import 'package:dialer/features/contacts/blocs/contacts_event.dart';
 import 'package:dialer/features/contacts/blocs/contacts_state.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
 import 'package:dialer/features/contacts/data/repositories/contacts_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mechanix_contacts/features/contacts/data/models/contacts.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockContactsRepository extends Mock implements ContactsRepository {}

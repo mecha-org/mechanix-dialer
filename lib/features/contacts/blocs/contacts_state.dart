@@ -1,5 +1,5 @@
 import 'package:dialer/core/utils/enums.dart';
-import 'package:dialer/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:equatable/equatable.dart';
 
 class ContactsState extends Equatable {

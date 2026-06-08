@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:dialer/features/contacts/data/models/contacts.dart';
-import 'package:dialer/features/contacts/data/models/phone_numbers.dart';
 import 'package:dialer/features/contacts/data/repositories/contacts_repository_impl.dart';
 import 'package:dialer/objectbox.g.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mechanix_contacts/features/contacts/data/models/contacts.dart';
+import 'package:mechanix_contacts/features/contacts/data/models/phone_numbers.dart';
 
 void main() {
   late Store store;

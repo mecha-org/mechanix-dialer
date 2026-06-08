@@ -4,62 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:5490134095863070759",
-      "lastPropertyId": "4:3159367242214690566",
-      "name": "ContactEntity",
-      "properties": [
-        {
-          "id": "1:3025916304853472201",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:1839559343724453746",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "3:5736702297189296602",
-          "name": "favorite",
-          "type": 1
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "2:3130716851358388790",
-      "lastPropertyId": "4:2654578565469083360",
-      "name": "PhoneNumberEntity",
-      "properties": [
-        {
-          "id": "1:8657377132596357409",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:9043123941580051961",
-          "name": "number",
-          "type": 9
-        },
-        {
-          "id": "3:2485496861647735794",
-          "name": "label",
-          "type": 9
-        },
-        {
-          "id": "4:2654578565469083360",
-          "name": "contactId",
-          "indexId": "1:926808214817580387",
-          "type": 11,
-          "flags": 520,
-          "relationTarget": "ContactEntity"
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:661755399947752582",
       "lastPropertyId": "7:6959831930144138143",
       "name": "RecentCallEntity",
@@ -102,67 +46,6 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "4:8296614410940130872",
-      "lastPropertyId": "4:5318460539018842769",
-      "name": "EmailEntity",
-      "properties": [
-        {
-          "id": "1:8793770246221430665",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:8371416544103031036",
-          "name": "email",
-          "type": 9
-        },
-        {
-          "id": "3:3081770792408261831",
-          "name": "label",
-          "type": 9
-        },
-        {
-          "id": "4:5318460539018842769",
-          "name": "contactId",
-          "indexId": "2:7020718015760467611",
-          "type": 11,
-          "flags": 520,
-          "relationTarget": "ContactEntity"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "5:6009832948164404529",
-      "lastPropertyId": "4:3883139867110059478",
-      "name": "SimCardEntity",
-      "properties": [
-        {
-          "id": "1:1977635480159000644",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:3987254982685156246",
-          "name": "slot",
-          "type": 9
-        },
-        {
-          "id": "3:6092904647696910603",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "4:3883139867110059478",
-          "name": "number",
-          "type": 9
-        }
-      ],
-      "relations": []
     }
   ],
   "lastEntityId": "5:6009832948164404529",
@@ -171,10 +54,30 @@
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    5490134095863070759,
+    3130716851358388790,
+    8296614410940130872,
+    6009832948164404529
+  ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    3159367242214690566
+    3159367242214690566,
+    3025916304853472201,
+    1839559343724453746,
+    5736702297189296602,
+    8657377132596357409,
+    9043123941580051961,
+    2485496861647735794,
+    2654578565469083360,
+    8793770246221430665,
+    8371416544103031036,
+    3081770792408261831,
+    5318460539018842769,
+    1977635480159000644,
+    3987254982685156246,
+    6092904647696910603,
+    3883139867110059478
   ],
   "retiredRelationUids": [],
   "version": 1

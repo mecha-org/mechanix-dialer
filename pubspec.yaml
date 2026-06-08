@@ -44,6 +44,11 @@ dependencies:
   oauth2: ^2.0.2
   http: ^1.2.1
   alphabet_list_view: ^1.2.1
+  mechanix_contacts:
+    git:
+      url: https://github.com/yogitah-mecha/mechanix-contacts.git
+      ref: 9aa2a092abfaff74f3fcc09b0f2ba6ad693dcab8
+
 
 dev_dependencies:
   flutter_test:

@@ -7,12 +7,12 @@ import 'package:dialer/core/utils/helper.dart';
 import 'package:dialer/core/widgets/custom_icon_button.dart';
 import 'package:dialer/features/dialer/blocs/dialer_bloc.dart';
 import 'package:dialer/features/dialer/blocs/dialer_event.dart';
-import 'package:dialer/features/dialer/data/models/sim_card.dart';
 import 'package:dialer/features/recents/data/models/recent_calls.dart';
 import 'package:dialer/features/recents/presentation/widgets/call_type_icon.dart';
 import 'package:dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mechanix_contacts/features/contacts/data/models/sim_card.dart';
 
 class RecentCallInfoContent extends StatelessWidget {
   final ScrollController scrollController;
