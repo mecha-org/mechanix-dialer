@@ -8,6 +8,8 @@ import 'package:mechanix_dialer/features/dialer/presentation/screens/dialer_scre
 import 'package:mechanix_dialer/features/dialer/presentation/widgets/dialer_bottom_bar.dart';
 import 'package:mechanix_dialer/features/recents/presentation/screens/recent_calls_screen.dart';
 import 'package:mechanix_dialer/features/contacts/presentation/screens/contacts_screen.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_bloc.dart';
+import 'package:mechanix_dialer/features/recents/blocs/recent_calls_event.dart';
 
 class DialerShellScreen extends StatefulWidget {
   const DialerShellScreen({super.key});
@@ -62,7 +64,13 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
         body: IndexedStack(index: _index, children: _tabs),
         bottomNavigationBar: DialerBottomBar(
           currentIndex: _index,
-          onTap: (i) => setState(() => _index = i),
+          onTap: (i) {
+            setState(() => _index = i);
+            if (i == 0) {
+              // Refresh the Recents list whenever the user navigates to the Recents tab.
+              context.read<RecentCallsBloc>().add(LoadRecentCalls());
+            }
+          },
         ),
       ),
     );

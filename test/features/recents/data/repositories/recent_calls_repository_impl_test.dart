@@ -5,6 +5,7 @@ import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
 import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_repository_impl.dart';
 import 'package:mechanix_dialer/objectbox.g.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart' as contacts_pkg;
 
 void main() {
   late Store store;
@@ -219,6 +220,140 @@ void main() {
     test('watchAll returns a stream of recent calls', () {
       final watchStream = repository.watchAll(limit: 2);
       expect(watchStream, isA<Stream<List<RecentCallEntity>>>());
+    });
+
+    group('dynamic contact name resolution', () {
+      late Store contactsStore;
+      late Directory contactsTempDir;
+
+      setUp(() async {
+        contactsTempDir = await Directory.systemTemp.createTemp('objectbox_contacts_test_');
+        contactsStore = contacts_pkg.openStore(directory: contactsTempDir.path);
+        repository = RecentCallsRepositoryImpl(store: store, contactsStore: contactsStore);
+      });
+
+      tearDown(() async {
+        contactsStore.close();
+        if (await contactsTempDir.exists()) {
+          await contactsTempDir.delete(recursive: true);
+        }
+      });
+
+      test('resolves and updates name from contacts store dynamically', () async {
+        // 1. Add recent call logs (without contact name, or with old name)
+        final call1 = RecentCallEntity(
+          name: 'Old Name',
+          phoneNumber: '123456789',
+          timestamp: DateTime.now(),
+          durationSeconds: 60,
+        );
+        final call2 = RecentCallEntity(
+          name: '',
+          phoneNumber: '987654321',
+          timestamp: DateTime.now(),
+          durationSeconds: 120,
+        );
+        await repository.add(call1);
+        await repository.add(call2);
+
+        // 2. Add contact in contactsStore matching call1 and call2
+        final contactBox = contactsStore.box<contacts_pkg.ContactEntity>();
+        final phoneBox = contactsStore.box<contacts_pkg.PhoneNumberEntity>();
+
+        final contact1 = contacts_pkg.ContactEntity(name: 'Updated John');
+        contactBox.put(contact1);
+        final phone1 = contacts_pkg.PhoneNumberEntity(number: '123456789');
+        phone1.contact.target = contact1;
+        phoneBox.put(phone1);
+
+        final contact2 = contacts_pkg.ContactEntity(name: 'New Bob');
+        contactBox.put(contact2);
+        final phone2 = contacts_pkg.PhoneNumberEntity(number: '987-654-321'); // different formatting
+        phone2.contact.target = contact2;
+        phoneBox.put(phone2);
+
+        // Wait for asynchronous sync listener
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        // 3. Fetch from repository
+        final results = await repository.getAll();
+
+        expect(results.length, 2);
+        
+        // Find by phone number to check values
+        final resJohn = results.firstWhere((r) => r.phoneNumber == '123456789');
+        final resBob = results.firstWhere((r) => r.phoneNumber == '987654321');
+
+        expect(resJohn.name, 'Updated John'); // name is updated dynamically
+        expect(resBob.name, 'New Bob'); // formatted number matches and name is updated
+      });
+
+      test('clears contact name if contact is deleted', () async {
+        // 1. Add call log
+        final call = RecentCallEntity(
+          name: 'Some Name',
+          phoneNumber: '123456',
+          timestamp: DateTime.now(),
+          durationSeconds: 10,
+        );
+        await repository.add(call);
+
+        // 2. Add contact
+        final contactBox = contactsStore.box<contacts_pkg.ContactEntity>();
+        final phoneBox = contactsStore.box<contacts_pkg.PhoneNumberEntity>();
+
+        final contact = contacts_pkg.ContactEntity(name: 'Alice');
+        contactBox.put(contact);
+        final phone = contacts_pkg.PhoneNumberEntity(number: '123456');
+        phone.contact.target = contact;
+        phoneBox.put(phone);
+
+        // Wait for sync listener
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        // Fetch to ensure name resolved
+        var results = await repository.getAll();
+        expect(results.first.name, 'Alice');
+
+        // 3. Delete contact
+        contactBox.remove(contact.id);
+        phoneBox.remove(phone.id);
+
+        // Wait a tiny bit for the subscription event to fire and clear the cache
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        // Fetch again and verify name is cleared
+        results = await repository.getAll();
+        expect(results.first.name, '');
+      });
+
+      test('searches recent calls by updated contact name', () async {
+        final call = RecentCallEntity(
+          name: 'Old Name',
+          phoneNumber: '555-555',
+          timestamp: DateTime.now(),
+          durationSeconds: 15,
+        );
+        await repository.add(call);
+
+        final contactBox = contactsStore.box<contacts_pkg.ContactEntity>();
+        final phoneBox = contactsStore.box<contacts_pkg.PhoneNumberEntity>();
+
+        final contact = contacts_pkg.ContactEntity(name: 'Charlie Brown');
+        contactBox.put(contact);
+        final phone = contacts_pkg.PhoneNumberEntity(number: '555-555');
+        phone.contact.target = contact;
+        phoneBox.put(phone);
+
+        // Wait for sync listener
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        // Search for 'Charlie' should find the call log of 555-555
+        final results = await repository.search('Charlie');
+        expect(results.length, 1);
+        expect(results.first.name, 'Charlie Brown');
+        expect(results.first.phoneNumber, '555-555');
+      });
     });
   });
 }
