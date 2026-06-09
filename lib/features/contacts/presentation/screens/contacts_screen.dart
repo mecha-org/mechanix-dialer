@@ -102,15 +102,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
     super.dispose();
   }
 
-  String _getInitials(String name) {
-    if (name.isEmpty) return "?";
-    final parts = name.trim().split(RegExp(r'\s+'));
-    if (parts.length > 1) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return name[0].toUpperCase();
-  }
-
   Future<void> _createNewContact() async {
     final result = await Navigator.push<Map<String, dynamic>>(
       context,
@@ -234,7 +225,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               isDraggingScrollbar: _isDraggingScrollbar,
               isAtEnd: _isAtEnd,
               debounceTimer: _debounceTimer,
-              getInitials: _getInitials,
+              getInitials: getInitials,
 
               onScrollStart: () {
                 if (!_isScrolling) {
