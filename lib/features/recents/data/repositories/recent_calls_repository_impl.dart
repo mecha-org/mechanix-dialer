@@ -47,19 +47,17 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
 
   Future<void> _initializeStore() async {
     try {
-      final home = Platform.environment['HOME'];
-      final appDir = Directory('$home/.config/mechanix_dialer/objectbox');
-      final exists = await appDir.exists();
+      final exists = await AppConstants.dialerStoreDir.exists();
 
       if (!exists) {
-        await appDir.create(recursive: true);
+        await AppConstants.dialerStoreDir.create(recursive: true);
       }
 
-      _store = openStore(directory: appDir.path);
+      _store = openStore(directory: AppConstants.dialerStoreDir.path);
       _box = _store!.box<RecentCallEntity>();
 
       AppLogger.i(
-        '[RecentCallRepository] ObjectBox store opened at ${appDir.path}',
+        '[RecentCallRepository] ObjectBox store opened at ${AppConstants.dialerStoreDir.path}',
       );
     } catch (e) {
       AppLogger.e('Failed to initialize ObjectBox store: $e');

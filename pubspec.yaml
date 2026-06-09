@@ -47,7 +47,7 @@ dependencies:
   mechanix_contacts:
     git:
       url: https://github.com/yogitah-mecha/mechanix-contacts.git
-      ref: 9aa2a092abfaff74f3fcc09b0f2ba6ad693dcab8
+      ref: 1487b39dc19866c582ec59f600fd27a538143211
 
 
 dev_dependencies:

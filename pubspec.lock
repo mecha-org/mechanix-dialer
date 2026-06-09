@@ -435,8 +435,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "9aa2a092abfaff74f3fcc09b0f2ba6ad693dcab8"
-      resolved-ref: "9aa2a092abfaff74f3fcc09b0f2ba6ad693dcab8"
+      ref: "1487b39dc19866c582ec59f600fd27a538143211"
+      resolved-ref: "1487b39dc19866c582ec59f600fd27a538143211"
       url: "https://github.com/yogitah-mecha/mechanix-contacts.git"
     source: git
     version: "1.0.0+1"
