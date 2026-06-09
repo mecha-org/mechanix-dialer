@@ -17,7 +17,9 @@ import 'package:mechanix_dialer/features/recents/data/repositories/recent_calls_
 import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
 import 'package:mechanix_dialer/features/recents/blocs/recent_calls_bloc.dart';
 import 'package:mechanix_dialer/features/contacts/blocs/contacts_bloc.dart';
-import 'package:mechanix_dialer/objectbox.g.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:mechanix_dialer/objectbox.g.dart' as dialer_ob;
+import 'package:mechanix_contacts/objectbox.g.dart' as contacts_ob;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +34,8 @@ void main() {
       contactsTempDir = await Directory.systemTemp.createTemp('contacts_test_');
       recentsTempDir = await Directory.systemTemp.createTemp('recents_test_');
 
-      contactsStore = openStore(directory: contactsTempDir.path);
-      recentsStore = openStore(directory: recentsTempDir.path);
+      contactsStore = contacts_ob.openStore(directory: contactsTempDir.path);
+      recentsStore = dialer_ob.openStore(directory: recentsTempDir.path);
     });
 
     tearDown(() async {
