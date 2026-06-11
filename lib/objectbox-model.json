@@ -1,0 +1,84 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "3:661755399947752582",
+      "lastPropertyId": "7:6959831930144138143",
+      "name": "RecentCallEntity",
+      "properties": [
+        {
+          "id": "1:4431515951635253667",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2380150288008148213",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:164684058115681441",
+          "name": "phoneNumber",
+          "type": 9
+        },
+        {
+          "id": "4:3629082753303698180",
+          "name": "timestamp",
+          "type": 10
+        },
+        {
+          "id": "5:4496403528350518076",
+          "name": "durationSeconds",
+          "type": 6
+        },
+        {
+          "id": "6:6057968148340250874",
+          "name": "callTypeIndex",
+          "type": 6
+        },
+        {
+          "id": "7:6959831930144138143",
+          "name": "simNumber",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "5:6009832948164404529",
+  "lastIndexId": "2:7020718015760467611",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    5490134095863070759,
+    3130716851358388790,
+    8296614410940130872,
+    6009832948164404529
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    3159367242214690566,
+    3025916304853472201,
+    1839559343724453746,
+    5736702297189296602,
+    8657377132596357409,
+    9043123941580051961,
+    2485496861647735794,
+    2654578565469083360,
+    8793770246221430665,
+    8371416544103031036,
+    3081770792408261831,
+    5318460539018842769,
+    1977635480159000644,
+    3987254982685156246,
+    6092904647696910603,
+    3883139867110059478
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
