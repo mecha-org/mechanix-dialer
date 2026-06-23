@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
@@ -18,6 +20,7 @@ class DialerScreen extends StatefulWidget {
 class DialerScreenState extends State<DialerScreen> {
   final ValueNotifier<String> dialedNumberNotifier = ValueNotifier('');
   final ValueNotifier<String?> callerNameNotifier = ValueNotifier(null);
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class DialerScreenState extends State<DialerScreen> {
     dialedNumberNotifier.removeListener(_onNumberChanged);
     dialedNumberNotifier.dispose();
     callerNameNotifier.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -58,6 +62,11 @@ class DialerScreenState extends State<DialerScreen> {
     callerNameNotifier.value = null;
   }
 
+  void clearDialedNumber() {
+    dialedNumberNotifier.value = '';
+    callerNameNotifier.value = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<DialerBloc, DialerState>(
@@ -79,72 +88,94 @@ class DialerScreenState extends State<DialerScreen> {
                   return ValueListenableBuilder<String?>(
                     valueListenable: callerNameNotifier,
                     builder: (context, callerName, _) {
-                      return Column(
-                        children: [
-                          Text(
-                            dialedNumber.isEmpty ? ' ' : dialedNumber,
-                            style: Theme.of(context).textTheme.labelLarge,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 6),
-                          if (dialedNumber.isNotEmpty) ...[
-                            if (callerName != null && callerName.isNotEmpty)
-                              Text(
-                                callerName,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: AppColors.onSurfaceVariant,
-                                    ),
-                              )
-                            else
-                              const SizedBox(height: 22),
-                          ] else ...[
-                            // Number is empty, show option to simulate incoming call
-                            GestureDetector(
-                              onTap: () {
-                                context.read<DialerBloc>().add(
-                                  ReceiveIncomingCall(
-                                    phoneNumber: '01-45728',
-                                    callerName: 'John Doe',
-                                    simNumber: '01-626262',
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Column(
+                          children: [
+                            ScrollConfiguration(
+                              behavior: ScrollConfiguration.of(context)
+                                  .copyWith(
+                                    dragDevices: {
+                                      PointerDeviceKind.touch,
+                                      PointerDeviceKind.mouse,
+                                    },
                                   ),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: AppColors.backgroundVariantLight,
+                              child: SingleChildScrollView(
+                                controller: _scrollController,
+                                scrollDirection: Axis.horizontal,
+                                reverse: true,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    dialedNumber.isEmpty ? ' ' : dialedNumber,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.labelLarge,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.call_received,
-                                      size: 14,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(width: 6),
-                                    Text(
-                                      "Simulate Incoming Call",
-                                      style: TextStyle(
-                                        color: AppColors.onSurfaceVariant,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
                             ),
+
+                            const SizedBox(height: 6),
+                            if (dialedNumber.isNotEmpty) ...[
+                              if (callerName != null && callerName.isNotEmpty)
+                                Text(
+                                  callerName,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: AppColors.onSurfaceVariant,
+                                      ),
+                                )
+                              else
+                                const SizedBox(height: 22),
+                            ] else ...[
+                              // Number is empty, show option to simulate incoming call
+                              GestureDetector(
+                                onTap: () {
+                                  context.read<DialerBloc>().add(
+                                    ReceiveIncomingCall(
+                                      phoneNumber: '01-45728',
+                                      callerName: 'John Doe',
+                                      simNumber: '01-626262',
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColors.backgroundVariantLight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.call_received,
+                                        size: 14,
+                                        color: Colors.green,
+                                      ),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        "Simulate Incoming Call",
+                                        style: TextStyle(
+                                          color: AppColors.onSurfaceVariant,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       );
                     },
                   );
