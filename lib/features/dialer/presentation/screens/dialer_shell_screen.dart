@@ -20,6 +20,7 @@ class DialerShellScreen extends StatefulWidget {
 
 class _DialerShellScreenState extends State<DialerShellScreen> {
   int _index = 0;
+  final _dialerKey = GlobalKey<DialerScreenState>();
 
   late final List<Widget> _tabs;
 
@@ -29,7 +30,7 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
 
     _tabs = [
       const RecentCallsScreen(),
-      const DialerScreen(),
+      DialerScreen(key: _dialerKey),
       const ContactsScreen(),
     ];
   }
@@ -65,9 +66,13 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
         bottomNavigationBar: DialerBottomBar(
           currentIndex: _index,
           onTap: (i) {
+            if (_index == 1 && i != 1) {
+              _dialerKey.currentState?.clearDialedNumber();
+            }
+
             setState(() => _index = i);
+
             if (i == 0) {
-              // Refresh the Recents list whenever the user navigates to the Recents tab.
               context.read<RecentCallsBloc>().add(LoadRecentCalls());
             }
           },

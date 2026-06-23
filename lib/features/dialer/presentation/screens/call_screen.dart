@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:mechanix_dialer/core/constants/dial_pad_buttons.dart';
 import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:mechanix_dialer/core/constants/icons.dart';
@@ -124,19 +126,27 @@ class _CallScreenState extends State<CallScreen> {
                       // Used for IVR systems, conference PINs, voicemail navigation, etc.
                       SizedBox(
                         height: 48,
-                        child: SingleChildScrollView(
-                          controller: _dtmfScrollController,
-                          scrollDirection: Axis.horizontal,
-                          reverse: true,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              _dtmfInput,
-                              style: Theme.of(context).textTheme.displayMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 2.0,
-                                  ),
+                        child: ScrollConfiguration(
+                          behavior: ScrollConfiguration.of(context).copyWith(
+                            dragDevices: {
+                              PointerDeviceKind.touch,
+                              PointerDeviceKind.mouse,
+                            },
+                          ),
+                          child: SingleChildScrollView(
+                            controller: _dtmfScrollController,
+                            scrollDirection: Axis.horizontal,
+                            reverse: true,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                _dtmfInput,
+                                style: Theme.of(context).textTheme.displayMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 2.0,
+                                    ),
+                              ),
                             ),
                           ),
                         ),
