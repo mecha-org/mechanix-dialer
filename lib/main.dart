@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mechanix_dialer/core/constants/app_routes.dart';
 import 'package:mechanix_dialer/core/theme/app_theme.dart';
 import 'package:mechanix_dialer/features/dialer/blocs/dialer_bloc.dart';
@@ -13,6 +15,7 @@ import 'package:mechanix_dialer/features/contacts/blocs/contacts_bloc.dart';
 import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:show_fps/show_fps.dart';
 
 void main() {
   runApp(
@@ -55,8 +58,15 @@ class DialerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showFps = Platform.environment['SHOW_FPS'] == 'true';
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: showFps
+          ? (context, child) {
+              return ShowFPS(visible: showFps, showChart: false, child: child!);
+            }
+          : null,
       theme: AppTheme.darkTheme,
       home: const DialerShellScreen(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
