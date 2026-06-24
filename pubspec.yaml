@@ -44,6 +44,7 @@ dependencies:
   oauth2: ^2.0.2
   http: ^1.2.1
   alphabet_list_view: ^1.2.1
+  show_fps: ^1.1.0
   mechanix_contacts:
     git: 
       url: https://github.com/mecha-org/mechanix-contacts.git
