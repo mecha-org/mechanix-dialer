@@ -137,6 +137,15 @@ class _RecentCallsScreenState extends State<RecentCallsScreen> {
 
                   contentPadding: const EdgeInsets.symmetric(vertical: 0),
                   fillColor: AppColors.backgroundVariantDark,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.read<RecentCallsBloc>().add(
+                        const SearchRecentCalls(''),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

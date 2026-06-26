@@ -204,6 +204,15 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 0),
                   fillColor: AppColors.backgroundVariantDark,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.read<ContactsBloc>().add(
+                        const SearchContacts(''),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

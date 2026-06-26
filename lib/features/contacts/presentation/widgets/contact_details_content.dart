@@ -159,13 +159,24 @@ class ContactDetailsBody extends StatelessWidget {
 
             ...emails.map(
               (email) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  email,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      email,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 12),
+                    const Divider(
+                      color: AppColors.backgroundVariantLight,
+                      height: 1,
+                    ),
+                  ],
                 ),
               ),
             ),
