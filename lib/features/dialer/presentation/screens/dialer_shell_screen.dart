@@ -65,14 +65,6 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
         body: IndexedStack(index: _index, children: _tabs),
         bottomNavigationBar: DialerBottomBar(
           currentIndex: _index,
-
-          // onTap: (i) {
-          //   setState(() => _index = i);
-          //   if (i == 0) {
-          //     // Refresh the Recents list whenever the user navigates to the Recents tab.
-          //     context.read<RecentCallsBloc>().add(LoadRecentCalls());
-          //   }
-          // },
           onTap: (i) {
             if (_index == 1 && i != 1) {
               _dialerKey.currentState?.clearDialedNumber();
