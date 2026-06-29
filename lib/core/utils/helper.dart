@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:dlibphonenumber/dlibphonenumber.dart';
 
 String formatDateTime(AppLocalizations l10n, DateTime dateTime) {
   final now = DateTime.now();
@@ -85,6 +87,71 @@ String? validateEmail(AppLocalizations l10n, String? value) {
 
   if (!RegExp(pattern).hasMatch(email)) {
     return l10n.invalidEmail;
+  }
+
+  return null;
+}
+
+String? validatePhoneNumber(AppLocalizations l10n, String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return null;
+  }
+
+  final cleanVal = value.trim();
+
+  // Basic regex check for allowed characters (digits, spaces, -, (, ), +)
+  final allowedCharsRegex = RegExp(r'^[0-9\s\-()+]*$');
+  if (!allowedCharsRegex.hasMatch(cleanVal)) {
+    return l10n.invalidPhoneNumber;
+  }
+
+  final digitsOnly = cleanVal.replaceAll(RegExp(r'\D'), '');
+  if (digitsOnly.length < 3) {
+    return l10n.phoneNumberTooShort;
+  }
+
+  if (digitsOnly.length > 25) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+
+  // If number of digits is 7 or more, perform validation with dlibphonenumber
+  if (digitsOnly.length >= 7) {
+    try {
+      final phoneUtil = PhoneNumberUtil.instance;
+      
+      // Determine user's local region based on platform locale (default to 'IN')
+      String defaultRegion = 'IN';
+      try {
+        final locale = Platform.localeName;
+        final parts = locale.split('_');
+        if (parts.length > 1) {
+          final countryPart = parts[1].split('.')[0];
+          if (countryPart.length == 2) {
+            defaultRegion = countryPart.toUpperCase();
+          }
+        }
+      } catch (_) {}
+
+      // First attempt: parse number as entered (e.g. local/national or already prefixed with +)
+      final phoneNumber = phoneUtil.parse(cleanVal, defaultRegion);
+      bool isValid = phoneUtil.isValidNumber(phoneNumber);
+
+      // Second attempt: if invalid and has no '+' prefix, try prepending '+' (e.g., country code present but no '+')
+      if (!isValid && !cleanVal.startsWith('+')) {
+        try {
+          final intlPhoneNumber = phoneUtil.parse('+$cleanVal', defaultRegion);
+          isValid = phoneUtil.isValidNumber(intlPhoneNumber);
+        } catch (_) {
+          // Fallback to invalid if prepending '+' also fails parsing
+        }
+      }
+
+      if (!isValid) {
+        return l10n.invalidPhoneNumberFormat;
+      }
+    } catch (e) {
+      return l10n.invalidPhoneNumberFormat;
+    }
   }
 
   return null;

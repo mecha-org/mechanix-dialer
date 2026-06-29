@@ -272,6 +272,7 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
         },
         onRemoveEmail: _removeEmailField,
         validateEmail: (value) => validateEmail(l10n, value),
+        validatePhone: (value) => validatePhoneNumber(l10n, value),
       ),
       bottomNavigationBar: ContactsFormBottomBar(onSave: _save),
     );

@@ -109,6 +109,10 @@
   "@invalidPhoneNumber": {
     "description": "Shown when a phone number contains invalid characters"
   },
+  "invalidPhoneNumberFormat": "Please enter a valid phone number",
+  "@invalidPhoneNumberFormat": {
+    "description": "Shown when a phone number is not in a valid format"
+  },
 
   "phoneNumberTooShort": "Please enter at least 3 digits",
   "@phoneNumberTooShort": {

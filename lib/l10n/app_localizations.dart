@@ -322,6 +322,12 @@ abstract class AppLocalizations {
   /// **'Only numbers and symbols (+, -, (, )) are allowed'**
   String get invalidPhoneNumber;
 
+  /// Shown when a phone number is not in a valid format
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get invalidPhoneNumberFormat;
+
   /// Shown when a phone number is too short
   ///
   /// In en, this message translates to:

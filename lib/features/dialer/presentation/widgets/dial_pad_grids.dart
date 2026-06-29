@@ -18,15 +18,22 @@ class DialPadGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      ...DialerButtons.keys.map(
-        (e) => DialPadItem(
+      ...DialerButtons.keys.map((e) {
+        final isZero = e == '0';
+        return DialPadItem(
           text: e,
+          subText: isZero ? '+' : null,
           backgroundColor: AppColors.backgroundVariant,
           onTap: () {
             dialedNumberNotifier.value += e;
           },
-        ),
-      ),
+          onLongPress: isZero
+              ? () {
+                  dialedNumberNotifier.value += '+';
+                }
+              : null,
+        );
+      }),
 
       DialPadItem(
         icon: const CustomImage(assetPath: AppIcons.personAdd, size: 32),
@@ -40,9 +47,9 @@ class DialPadGrid extends StatelessWidget {
         icon: const CustomImage(
           assetPath: AppIcons.call,
           size: 36,
-          color: AppColors.surface,
+          color: AppColors.onSurface,
         ),
-        backgroundColor: AppColors.onSurfaceVariant,
+        backgroundColor: Colors.green,
         onTap: () {
           final number = dialedNumberNotifier.value;
           final cleanNumber = number.replaceAll(RegExp(r'[^\d*#+]'), '');
@@ -94,9 +101,11 @@ class DialPadGrid extends StatelessWidget {
 
               return DialButton(
                 text: item.text,
+                subText: item.subText,
                 icon: item.icon,
                 backgroundColor: item.backgroundColor,
                 onTap: item.onTap!,
+                onLongPress: item.onLongPress,
               );
             },
           );

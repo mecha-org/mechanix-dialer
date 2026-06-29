@@ -19,6 +19,7 @@ class ContactFormContent extends StatelessWidget {
   final ValueChanged<int> onRemoveEmail;
 
   final String? Function(String?) validateEmail;
+  final String? Function(String?) validatePhone;
 
   const ContactFormContent({
     super.key,
@@ -31,6 +32,7 @@ class ContactFormContent extends StatelessWidget {
     required this.onAddEmail,
     required this.onRemoveEmail,
     required this.validateEmail,
+    required this.validatePhone,
   });
 
   @override
@@ -60,6 +62,7 @@ class ContactFormContent extends StatelessWidget {
 
               return _PhoneField(
                 controller: controller,
+                validator: validatePhone,
                 onAdd: onAddPhone,
                 onRemove: () => onRemovePhone(index),
               );
@@ -147,11 +150,13 @@ class _NameField extends StatelessWidget {
 
 class _PhoneField extends StatelessWidget {
   final TextEditingController controller;
+  final String? Function(String?) validator;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
 
   const _PhoneField({
     required this.controller,
+    required this.validator,
     required this.onAdd,
     required this.onRemove,
   });
@@ -185,25 +190,7 @@ class _PhoneField extends StatelessWidget {
                 ),
               ),
               style: const TextStyle(color: AppColors.onSurface),
-              validator: (value) {
-                if (isEmptyField) return null;
-
-                final cleanVal = value!.trim();
-
-                final allowedCharsRegex = RegExp(r'^[0-9\s\-()+]*$');
-
-                if (!allowedCharsRegex.hasMatch(cleanVal)) {
-                  return AppLocalizations.of(context)!.invalidPhoneNumber;
-                }
-
-                final digitsOnly = cleanVal.replaceAll(RegExp(r'\D'), '');
-
-                if (digitsOnly.length < 3) {
-                  return AppLocalizations.of(context)!.phoneNumberTooShort;
-                }
-
-                return null;
-              },
+              validator: validator,
             ),
           ),
           const SizedBox(width: 8),
