@@ -105,7 +105,7 @@
       }
     }
   },
-  "invalidPhoneNumber": "Only numbers and symbols (+, -, (, )) are allowed",
+  "invalidPhoneNumber": "Please enter a valid phone number using digits and +, -, (, )",
   "@invalidPhoneNumber": {
     "description": "Shown when a phone number contains invalid characters"
   },

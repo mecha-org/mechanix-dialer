@@ -134,7 +134,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidPhoneNumber =>
-      'Only numbers and symbols (+, -, (, )) are allowed';
+      'Please enter a valid phone number using digits and +, -, (, )';
 
   @override
   String get invalidPhoneNumberFormat => 'Please enter a valid phone number';

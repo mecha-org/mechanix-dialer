@@ -319,7 +319,7 @@ abstract class AppLocalizations {
   /// Shown when a phone number contains invalid characters
   ///
   /// In en, this message translates to:
-  /// **'Only numbers and symbols (+, -, (, )) are allowed'**
+  /// **'Please enter a valid phone number using digits and +, -, (, )'**
   String get invalidPhoneNumber;
 
   /// Shown when a phone number is not in a valid format

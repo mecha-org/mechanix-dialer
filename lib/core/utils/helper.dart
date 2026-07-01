@@ -105,6 +105,41 @@ String? validatePhoneNumber(AppLocalizations l10n, String? value) {
     return l10n.invalidPhoneNumber;
   }
 
+  // Check plus sign position and count (only one optional leading plus)
+  final plusCount = cleanVal.split('+').length - 1;
+  if (plusCount > 1 || (plusCount == 1 && !cleanVal.startsWith('+'))) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+
+  // Check parentheses balance and count (at most one pair of matching parentheses)
+  final openParenCount = cleanVal.split('(').length - 1;
+  final closeParenCount = cleanVal.split(')').length - 1;
+  if (openParenCount != closeParenCount || openParenCount > 1) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+  if (openParenCount == 1) {
+    final openIndex = cleanVal.indexOf('(');
+    final closeIndex = cleanVal.indexOf(')');
+    if (openIndex > closeIndex) {
+      return l10n.invalidPhoneNumberFormat;
+    }
+  }
+
+  // Check for consecutive symbols like '--' or '  '
+  if (cleanVal.contains('--') || cleanVal.contains('  ')) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+
+  // Must start with a digit, '+', or '('
+  if (!RegExp(r'^[0-9+(]').hasMatch(cleanVal)) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+
+  // Must end with a digit or ')'
+  if (!RegExp(r'[0-9)]$').hasMatch(cleanVal)) {
+    return l10n.invalidPhoneNumberFormat;
+  }
+
   final digitsOnly = cleanVal.replaceAll(RegExp(r'\D'), '');
   if (digitsOnly.length < 3) {
     return l10n.phoneNumberTooShort;
