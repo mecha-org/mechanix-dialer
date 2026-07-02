@@ -145,7 +145,7 @@ String? validatePhoneNumber(AppLocalizations l10n, String? value) {
     return l10n.phoneNumberTooShort;
   }
 
-  if (digitsOnly.length > 25) {
+  if (digitsOnly.length > 15) {
     return l10n.invalidPhoneNumberFormat;
   }
 
@@ -153,7 +153,7 @@ String? validatePhoneNumber(AppLocalizations l10n, String? value) {
   if (digitsOnly.length >= 7) {
     try {
       final phoneUtil = PhoneNumberUtil.instance;
-      
+
       // Determine user's local region based on platform locale (default to 'IN')
       String defaultRegion = 'IN';
       try {
@@ -214,5 +214,8 @@ String getErrorMessage(AppLocalizations l10n, ContactsError error) {
 
     case ContactsError.searchFailed:
       return l10n.failedToSearchContact;
+
+    case ContactsError.duplicateContact:
+      return l10n.contactAlreadyExists;
   }
 }

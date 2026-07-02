@@ -49,7 +49,7 @@ dependencies:
   mechanix_contacts:
     git: 
       url: https://github.com/mecha-org/mechanix-contacts.git
-      ref: b1b7a30d901a14fdcf45a648182e975df40e0223
+      ref: cbabec5e9fe7274a7f5115caab9cdd6493fd8c35
 
 dev_dependencies:
   flutter_test:

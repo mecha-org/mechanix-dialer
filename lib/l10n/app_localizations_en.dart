@@ -209,4 +209,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToSearchContact => 'Failed to search contact';
+
+  @override
+  String get contactAlreadyExists =>
+      'A contact with this name and phone number already exists';
 }

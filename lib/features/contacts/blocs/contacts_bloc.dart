@@ -1,6 +1,7 @@
 import 'package:mechanix_dialer/core/utils/app_logger.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_dialer/features/contacts/data/repositories/contacts_repository.dart';
+import 'package:mechanix_contacts/mechanix_contacts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'contacts_event.dart';
 import 'contacts_state.dart';
@@ -39,10 +40,11 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(state.copyWith(status: ContactsStatus.loaded, contacts: contacts));
     } catch (e) {
       AppLogger.e('Failed to save contact: $e');
+      final isDuplicate = e is DuplicateContactException;
       emit(
         state.copyWith(
           status: ContactsStatus.error,
-          error: ContactsError.saveFailed,
+          error: isDuplicate ? ContactsError.duplicateContact : ContactsError.saveFailed,
         ),
       );
     }

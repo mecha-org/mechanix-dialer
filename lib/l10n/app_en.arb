@@ -181,6 +181,6 @@
   "failedToUpdateContact": "Failed to update contact",
   "contactsDatabaseUnavailable": "Contacts database is unavailable",
   "somethingWentWrong": "Something went wrong",
-  "failedToSearchContact": "Failed to search contact"
-
+  "failedToSearchContact": "Failed to search contact",
+  "contactAlreadyExists": "A contact with this name and phone number already exists"
 }

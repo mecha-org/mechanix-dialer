@@ -129,13 +129,17 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
 
     if (emptyIndexes.length <= 1) return;
 
-    setState(() {
-      for (int i = emptyIndexes.length - 2; i >= 0; i--) {
-        final removeIndex = emptyIndexes[i];
-
-        controllers[removeIndex].dispose();
-        controllers.removeAt(removeIndex);
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        for (int i = emptyIndexes.length - 2; i >= 0; i--) {
+          final removeIndex = emptyIndexes[i];
+          if (removeIndex < controllers.length) {
+            controllers[removeIndex].dispose();
+            controllers.removeAt(removeIndex);
+          }
+        }
+      });
     });
   }
 
