@@ -21,6 +21,8 @@ class DialerShellScreen extends StatefulWidget {
 class _DialerShellScreenState extends State<DialerShellScreen> {
   int _index = 0;
   final _dialerKey = GlobalKey<DialerScreenState>();
+  final _recentCallsKey = GlobalKey<RecentCallsScreenState>();
+  final _contactsKey = GlobalKey<ContactsScreenState>();
 
   late final List<Widget> _tabs;
 
@@ -29,10 +31,32 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
     super.initState();
 
     _tabs = [
-      const RecentCallsScreen(),
+      RecentCallsScreen(key: _recentCallsKey),
       DialerScreen(key: _dialerKey),
-      const ContactsScreen(),
+      ContactsScreen(key: _contactsKey),
     ];
+  }
+
+  void _changeTab(int newIndex) {
+    if (_index == newIndex) return;
+
+    if (_index == 1) {
+      _dialerKey.currentState?.clearDialedNumber();
+    }
+    if (_index == 0) {
+      _recentCallsKey.currentState?.clearSearch();
+    }
+    if (_index == 2) {
+      _contactsKey.currentState?.clearSearch();
+    }
+
+    setState(() {
+      _index = newIndex;
+    });
+
+    if (newIndex == 0) {
+      context.read<RecentCallsBloc>().add(LoadRecentCalls());
+    }
   }
 
   @override
@@ -56,26 +80,14 @@ class _DialerShellScreenState extends State<DialerShellScreen> {
             MaterialPageRoute(builder: (context) => const CallScreen()),
           );
         } else if (state.callStatus == CallStatus.none) {
-          setState(() {
-            _index = 0;
-          });
+          _changeTab(0);
         }
       },
       child: Scaffold(
         body: IndexedStack(index: _index, children: _tabs),
         bottomNavigationBar: DialerBottomBar(
           currentIndex: _index,
-          onTap: (i) {
-            if (_index == 1 && i != 1) {
-              _dialerKey.currentState?.clearDialedNumber();
-            }
-
-            setState(() => _index = i);
-
-            if (i == 0) {
-              context.read<RecentCallsBloc>().add(LoadRecentCalls());
-            }
-          },
+          onTap: _changeTab,
         ),
       ),
     );
