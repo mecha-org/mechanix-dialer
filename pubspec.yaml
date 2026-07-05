@@ -45,7 +45,7 @@ dependencies:
   http: ^1.2.1
   alphabet_list_view: ^1.2.1
   show_fps: ^1.1.0
-  dlibphonenumber: ^1.1.35
+  phone_numbers_parser: ^9.0.24
   mechanix_contacts:
     git: 
       url: https://github.com/mecha-org/mechanix-contacts.git
