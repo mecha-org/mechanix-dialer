@@ -1,3 +1,4 @@
+import 'package:mechanix_dialer/core/utils/app_logger.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_dialer/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -96,50 +97,50 @@ String? validatePhoneNumber(AppLocalizations l10n, String? value) {
     return null;
   }
 
-  final cleanVal = value.trim();
+  final inputPhoneNumber = value.trim();
 
   // Basic regex check for allowed characters (digits, spaces, -, (, ), +)
   final allowedCharsRegex = RegExp(r'^[0-9\s\-()+]*$');
-  if (!allowedCharsRegex.hasMatch(cleanVal)) {
+  if (!allowedCharsRegex.hasMatch(inputPhoneNumber)) {
     return l10n.invalidPhoneNumber;
   }
 
   // Check plus sign position and count (only one optional leading plus)
-  final plusCount = cleanVal.split('+').length - 1;
-  if (plusCount > 1 || (plusCount == 1 && !cleanVal.startsWith('+'))) {
+  final plusCount = inputPhoneNumber.split('+').length - 1;
+  if (plusCount > 1 || (plusCount == 1 && !inputPhoneNumber.startsWith('+'))) {
     return l10n.invalidPhoneNumberFormat;
   }
 
   // Check parentheses balance and count (at most one pair of matching parentheses)
-  final openParenCount = cleanVal.split('(').length - 1;
-  final closeParenCount = cleanVal.split(')').length - 1;
+  final openParenCount = inputPhoneNumber.split('(').length - 1;
+  final closeParenCount = inputPhoneNumber.split(')').length - 1;
   if (openParenCount != closeParenCount || openParenCount > 1) {
     return l10n.invalidPhoneNumberFormat;
   }
   if (openParenCount == 1) {
-    final openIndex = cleanVal.indexOf('(');
-    final closeIndex = cleanVal.indexOf(')');
+    final openIndex = inputPhoneNumber.indexOf('(');
+    final closeIndex = inputPhoneNumber.indexOf(')');
     if (openIndex > closeIndex) {
       return l10n.invalidPhoneNumberFormat;
     }
   }
 
   // Check for consecutive symbols like '--' or '  '
-  if (cleanVal.contains('--') || cleanVal.contains('  ')) {
+  if (inputPhoneNumber.contains('--') || inputPhoneNumber.contains('  ')) {
     return l10n.invalidPhoneNumberFormat;
   }
 
   // Must start with a digit, '+', or '('
-  if (!RegExp(r'^[0-9+(]').hasMatch(cleanVal)) {
+  if (!RegExp(r'^[0-9+(]').hasMatch(inputPhoneNumber)) {
     return l10n.invalidPhoneNumberFormat;
   }
 
   // Must end with a digit or ')'
-  if (!RegExp(r'[0-9)]$').hasMatch(cleanVal)) {
+  if (!RegExp(r'[0-9)]$').hasMatch(inputPhoneNumber)) {
     return l10n.invalidPhoneNumberFormat;
   }
 
-  final digitsOnly = cleanVal.replaceAll(RegExp(r'\D'), '');
+  final digitsOnly = inputPhoneNumber.replaceAll(RegExp(r'\D'), '');
   if (digitsOnly.length < 3) {
     return l10n.phoneNumberTooShort;
   }
@@ -149,14 +150,17 @@ String? validatePhoneNumber(AppLocalizations l10n, String? value) {
   }
 
   // If number of digits is 7 or more and starts with a plus sign, validate using phone_numbers_parser
-  if (digitsOnly.length >= 7 && cleanVal.startsWith('+')) {
+  if (digitsOnly.length >= 7 && inputPhoneNumber.startsWith('+')) {
     try {
-      final phoneNumber = PhoneNumber.parse(cleanVal);
+      final phoneNumber = PhoneNumber.parse(inputPhoneNumber);
 
       if (!phoneNumber.isValid()) {
         return l10n.invalidPhoneNumberFormat;
       }
-    } catch (_) {
+    } catch (e) {
+      AppLogger.e(
+        "Phone number validation failed while parsing '$inputPhoneNumber': $e",
+      );
       return l10n.invalidPhoneNumberFormat;
     }
   }
