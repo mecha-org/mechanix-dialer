@@ -42,7 +42,7 @@ class _RecentCallsListSectionState extends State<RecentCallsListSection> {
     if (widget.calls.isEmpty) {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.allCalls,
+          AppLocalizations.of(context)!.noRecentCalls,
           style: Theme.of(context).textTheme.labelMedium,
         ),
       );

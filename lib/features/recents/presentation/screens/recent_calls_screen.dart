@@ -15,19 +15,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mechanix_dialer/features/recents/presentation/widgets/recent_calls_list_section.dart';
 
+import 'package:mechanix_dialer/features/recents/presentation/screens/recent_call_info_screen.dart';
+
 class RecentCallsScreen extends StatefulWidget {
   const RecentCallsScreen({super.key});
 
   @override
-  State<RecentCallsScreen> createState() => _RecentCallsScreenState();
+  State<RecentCallsScreen> createState() => RecentCallsScreenState();
 }
 
-class _RecentCallsScreenState extends State<RecentCallsScreen> {
+class RecentCallsScreenState extends State<RecentCallsScreen> {
   final ScrollController _scrollController = ScrollController();
 
   final TextEditingController _searchController = TextEditingController();
 
   CallFilter selectedFilter = CallFilter.all;
+
+  void clearSearch() {
+    _searchController.clear();
+    setState(() {
+      selectedFilter = CallFilter.all;
+    });
+    context.read<RecentCallsBloc>().add(const SearchRecentCalls(''));
+  }
 
   @override
   void initState() {
@@ -137,6 +147,15 @@ class _RecentCallsScreenState extends State<RecentCallsScreen> {
 
                   contentPadding: const EdgeInsets.symmetric(vertical: 0),
                   fillColor: AppColors.backgroundVariantDark,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.read<RecentCallsBloc>().add(
+                        const SearchRecentCalls(''),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -171,6 +190,15 @@ class _RecentCallsScreenState extends State<RecentCallsScreen> {
               return RecentCallsListSection(
                 calls: state.calls,
                 scrollController: _scrollController,
+                onTap: (call) {
+                  clearSearch();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => RecentCallsInfoScreen(call: call),
+                    ),
+                  );
+                },
               );
             },
           ),

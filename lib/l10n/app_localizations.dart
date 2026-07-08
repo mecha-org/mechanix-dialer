@@ -319,8 +319,14 @@ abstract class AppLocalizations {
   /// Shown when a phone number contains invalid characters
   ///
   /// In en, this message translates to:
-  /// **'Only numbers and symbols (+, -, (, )) are allowed'**
+  /// **'Please enter a valid phone number using digits and +, -, (, )'**
   String get invalidPhoneNumber;
+
+  /// Shown when a phone number is not in a valid format
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get invalidPhoneNumberFormat;
 
   /// Shown when a phone number is too short
   ///
@@ -459,6 +465,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to search contact'**
   String get failedToSearchContact;
+
+  /// No description provided for @contactAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'A contact with this name and phone number already exists'**
+  String get contactAlreadyExists;
 }
 
 class _AppLocalizationsDelegate

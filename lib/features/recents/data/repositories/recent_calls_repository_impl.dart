@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:mechanix_dialer/core/constants/app_constants.dart';
-import 'package:mechanix_dialer/core/exceptions/app_exception.dart';
+import 'package:mechanix_dialer/core/exceptions/app_exception.dart' as dialer;
 import 'package:mechanix_dialer/core/utils/app_logger.dart';
 import 'package:mechanix_dialer/core/utils/enums.dart';
 import 'package:mechanix_dialer/features/recents/data/models/recent_calls.dart';
@@ -65,7 +65,7 @@ class RecentCallsRepositoryImpl implements RecentCallsRepository {
     } catch (e) {
       AppLogger.e('Failed to open ObjectBox store: $e');
       if (e is FileSystemException && e.message.contains('lock failed')) {
-        throw AppAlreadyRunningException();
+        throw dialer.AppAlreadyRunningException();
       }
       rethrow;
     } finally {

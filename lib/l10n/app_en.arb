@@ -105,9 +105,13 @@
       }
     }
   },
-  "invalidPhoneNumber": "Only numbers and symbols (+, -, (, )) are allowed",
+  "invalidPhoneNumber": "Please enter a valid phone number using digits and +, -, (, )",
   "@invalidPhoneNumber": {
     "description": "Shown when a phone number contains invalid characters"
+  },
+  "invalidPhoneNumberFormat": "Please enter a valid phone number",
+  "@invalidPhoneNumberFormat": {
+    "description": "Shown when a phone number is not in a valid format"
   },
 
   "phoneNumberTooShort": "Please enter at least 3 digits",
@@ -177,6 +181,6 @@
   "failedToUpdateContact": "Failed to update contact",
   "contactsDatabaseUnavailable": "Contacts database is unavailable",
   "somethingWentWrong": "Something went wrong",
-  "failedToSearchContact": "Failed to search contact"
-
+  "failedToSearchContact": "Failed to search contact",
+  "contactAlreadyExists": "A contact with this name and phone number already exists"
 }

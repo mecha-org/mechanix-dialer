@@ -21,11 +21,16 @@ class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key});
 
   @override
-  State<ContactsScreen> createState() => _ContactsScreenState();
+  State<ContactsScreen> createState() => ContactsScreenState();
 }
 
-class _ContactsScreenState extends State<ContactsScreen> {
+class ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
+
+  void clearSearch() {
+    _searchController.clear();
+    context.read<ContactsBloc>().add(const SearchContacts(''));
+  }
   final ScrollController _scrollController = ScrollController();
   final Map<String, GlobalKey> _groupKeys = {};
   bool _isScrolling = false;
@@ -103,6 +108,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   Future<void> _createNewContact() async {
+    clearSearch();
     final result = await Navigator.push<Map<String, dynamic>>(
       context,
       MaterialPageRoute(builder: (_) => const ContactFormScreen()),
@@ -204,6 +210,15 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(vertical: 0),
                   fillColor: AppColors.backgroundVariantDark,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.read<ContactsBloc>().add(
+                        const SearchContacts(''),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -260,6 +275,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               },
 
               onContactTap: (contact) {
+                clearSearch();
                 Navigator.push(
                   context,
                   MaterialPageRoute(

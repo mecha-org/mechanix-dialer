@@ -19,6 +19,7 @@ class ContactFormContent extends StatelessWidget {
   final ValueChanged<int> onRemoveEmail;
 
   final String? Function(String?) validateEmail;
+  final String? Function(String?) validatePhone;
 
   const ContactFormContent({
     super.key,
@@ -31,6 +32,7 @@ class ContactFormContent extends StatelessWidget {
     required this.onAddEmail,
     required this.onRemoveEmail,
     required this.validateEmail,
+    required this.validatePhone,
   });
 
   @override
@@ -59,9 +61,12 @@ class ContactFormContent extends StatelessWidget {
               final controller = phoneControllers[index];
 
               return _PhoneField(
+                key: ValueKey(controller),
                 controller: controller,
+                validator: validatePhone,
                 onAdd: onAddPhone,
                 onRemove: () => onRemovePhone(index),
+                isLast: index == phoneControllers.length - 1,
               );
             }),
 
@@ -78,10 +83,12 @@ class ContactFormContent extends StatelessWidget {
               final controller = emailControllers[index];
 
               return _EmailField(
+                key: ValueKey(controller),
                 controller: controller,
                 validator: validateEmail,
                 onAdd: onAddEmail,
                 onRemove: () => onRemoveEmail(index),
+                isLast: index == emailControllers.length - 1,
               );
             }),
           ],
@@ -98,6 +105,8 @@ class _NameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -120,23 +129,31 @@ class _NameField extends StatelessWidget {
         final name = value?.trim() ?? '';
 
         if (name.isEmpty) {
-          return AppLocalizations.of(context)!.pleaseEnterName;
+          return l10n.pleaseEnterName;
         }
 
         if (name.length < 2) {
-          return AppLocalizations.of(context)!.nameTooShort;
-        }
-
-        final nameRegex = RegExp(r"^[a-zA-ZÀ-ÿ\s'.-]+$");
-
-        if (!nameRegex.hasMatch(name)) {
-          return AppLocalizations.of(context)!.invalidName;
+          return l10n.nameTooShort;
         }
 
         if (name.length > AppConstants.maxContactNameLength) {
-          return AppLocalizations.of(
-            context,
-          )!.nameTooLong(AppConstants.maxContactNameLength);
+          return l10n.nameTooLong(AppConstants.maxContactNameLength);
+        }
+
+        // Must start with a letter
+        if (!RegExp(r'^[A-Za-zÀ-ÿ]').hasMatch(name)) {
+          return l10n.invalidName;
+        }
+
+        // Allow letters, digits, spaces and common punctuation
+        final allowedChars = RegExp(r"^[A-Za-zÀ-ÿ0-9\s'.()\-&_#]+$");
+        if (!allowedChars.hasMatch(name)) {
+          return l10n.invalidName;
+        }
+
+        // Must contain at least one letter
+        if (!RegExp(r'[A-Za-zÀ-ÿ]').hasMatch(name)) {
+          return l10n.invalidName;
         }
 
         return null;
@@ -147,19 +164,22 @@ class _NameField extends StatelessWidget {
 
 class _PhoneField extends StatelessWidget {
   final TextEditingController controller;
+  final String? Function(String?) validator;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
+  final bool isLast;
 
   const _PhoneField({
+    super.key,
     required this.controller,
+    required this.validator,
     required this.onAdd,
     required this.onRemove,
+    required this.isLast,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isEmptyField = controller.text.trim().isEmpty;
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -185,36 +205,16 @@ class _PhoneField extends StatelessWidget {
                 ),
               ),
               style: const TextStyle(color: AppColors.onSurface),
-              validator: (value) {
-                if (isEmptyField) return null;
-
-                final cleanVal = value!.trim();
-
-                final allowedCharsRegex = RegExp(r'^[0-9\s\-()+]*$');
-
-                if (!allowedCharsRegex.hasMatch(cleanVal)) {
-                  return AppLocalizations.of(context)!.invalidPhoneNumber;
-                }
-
-                final digitsOnly = cleanVal.replaceAll(RegExp(r'\D'), '');
-
-                if (digitsOnly.length < 3) {
-                  return AppLocalizations.of(context)!.phoneNumberTooShort;
-                }
-
-                return null;
-              },
+              validator: validator,
             ),
           ),
           const SizedBox(width: 8),
           IconButton(
             icon: Icon(
-              isEmptyField
-                  ? Icons.add_circle_outline
-                  : Icons.remove_circle_outline,
-              color: isEmptyField ? Colors.blue : Colors.redAccent,
+              isLast ? Icons.add_circle_outline : Icons.remove_circle_outline,
+              color: isLast ? Colors.blue : Colors.redAccent,
             ),
-            onPressed: isEmptyField ? onAdd : onRemove,
+            onPressed: isLast ? onAdd : onRemove,
           ),
         ],
       ),
@@ -227,18 +227,19 @@ class _EmailField extends StatelessWidget {
   final String? Function(String?) validator;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
+  final bool isLast;
 
   const _EmailField({
+    super.key,
     required this.controller,
     required this.validator,
     required this.onAdd,
     required this.onRemove,
+    required this.isLast,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isEmptyField = controller.text.trim().isEmpty;
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -265,12 +266,10 @@ class _EmailField extends StatelessWidget {
           const SizedBox(width: 8),
           IconButton(
             icon: Icon(
-              isEmptyField
-                  ? Icons.add_circle_outline
-                  : Icons.remove_circle_outline,
-              color: isEmptyField ? Colors.blue : Colors.redAccent,
+              isLast ? Icons.add_circle_outline : Icons.remove_circle_outline,
+              color: isLast ? Colors.blue : Colors.redAccent,
             ),
-            onPressed: isEmptyField ? onAdd : onRemove,
+            onPressed: isLast ? onAdd : onRemove,
           ),
         ],
       ),
