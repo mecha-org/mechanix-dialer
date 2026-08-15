@@ -1,9 +1,0 @@
-name: packaging-metadata
-version: 1.0.0
-summary: Metadata for Mechanix Dialer app packaging
-applications:
-  - name: dialer
-    folder: .
-    binary: mechanix_dialer
-    description: "Mechanix Dialer application"
-    maintainer: "Yogita Hiray <yogita.hiray@mechasystem.com>"

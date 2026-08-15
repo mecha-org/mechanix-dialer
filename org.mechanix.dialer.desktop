@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Mechanix Dialer
+Comment=Dialer for Mechanix OS
+Exec=mechanix_dialer -s 1
+Icon=org.mechanix.dialer
+Terminal=false
+Categories=Utility;Telephony;
+StartupNotify=true
+StartupWMClass=org.mechanix.dialer
